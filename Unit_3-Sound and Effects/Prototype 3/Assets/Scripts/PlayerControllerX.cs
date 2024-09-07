@@ -8,6 +8,7 @@ public class PlayerControllerX : MonoBehaviour
 
     public float floatForce;
     private float gravityModifier = 1.5f;
+    private bool isLowEnough;
     private Rigidbody playerRb;
 
     public ParticleSystem explosionParticle;
@@ -33,8 +34,9 @@ public class PlayerControllerX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isLowEnough = transform.position.y < 10;
         // While space is pressed and player is low enough, float up
-        if (Input.GetKeyDown(KeyCode.Space) && !gameOver && transform.position.y < 18)
+        if (Input.GetKeyDown(KeyCode.Space) && !gameOver && isLowEnough)
         {
             playerRb.AddForce(Vector3.up * floatForce, ForceMode.Impulse);
         }
