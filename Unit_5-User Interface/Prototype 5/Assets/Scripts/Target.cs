@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Target : MonoBehaviour
 {
@@ -12,10 +14,10 @@ public class Target : MonoBehaviour
 
     private float xRange = 4.0f;
 
-    private float ySpawnPos = -6.0f;
+    private float ySpawnPos = -2.0f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         targetRb = GetComponent<Rigidbody>();
         targetRb.AddForce(RandomForce(), ForceMode.Impulse);
@@ -24,24 +26,32 @@ public class Target : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
     }
 
-    Vector3 RandomForce()
+    private Vector3 RandomForce()
     {
         return Vector3.up * Random.Range(minSpeed, maxSpeed);
     }
 
-    float RandomTorque()
+    private float RandomTorque()
     {
         return Random.Range(-maxTorque, maxTorque);
     }
 
-    Vector3 RandomSpawnPos()
+    private Vector3 RandomSpawnPos()
     {
         return new Vector3(Random.Range(-xRange, xRange), ySpawnPos);
     }
 
+    private void OnMouseDown()
+    {
+        Destroy(gameObject);
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(gameObject);
+    }
 }
