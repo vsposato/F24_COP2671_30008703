@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,27 +13,26 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     public GameObject titleScreen;
-
-    private float spawnRate = 1.5f;
     private int score;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private float spawnRate = 2.0f;
 
+    // Start is called before the first frame update
+    private void Start()
+    {
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
     }
 
-    IEnumerator SpawnTarget()
+    private IEnumerator SpawnTarget()
     {
         while (isGameActive)
         {
             yield return new WaitForSeconds(spawnRate);
-            int index = Random.Range(0, targets.Count);
+            var index = Random.Range(0, targets.Count);
             Instantiate(targets[index]);
         }
     }
@@ -56,8 +55,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void StartGame()
+    public void StartGame(int difficulty)
     {
+        spawnRate /= difficulty;
         isGameActive = true;
         score = 0;
 
