@@ -4,6 +4,8 @@ using Random = UnityEngine.Random;
 
 public class Target : MonoBehaviour
 {
+    public int pointValue;
+
     private Rigidbody targetRb;
 
     private float minSpeed = 12.0f;
@@ -49,7 +51,7 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
-        gameManager.UpdateScore(5);
+        gameManager.UpdateScore(pointValue);
         Destroy(gameObject);
     }
 
