@@ -23,6 +23,11 @@ public class Target : MonoBehaviour
         transform.position = RandomSpawnPos();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+    }
+
     Vector3 RandomForce()
     {
         return Vector3.up * Random.Range(minSpeed, maxSpeed);
@@ -38,8 +43,5 @@ public class Target : MonoBehaviour
         return new Vector3(Random.Range(-xRange, xRange), ySpawnPos);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
+
 }
