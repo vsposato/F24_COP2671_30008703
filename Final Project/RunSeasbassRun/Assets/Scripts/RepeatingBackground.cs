@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class repeatingBackground : MonoBehaviour 
+public class RepeatingBackground : MonoBehaviour
 {
 
 	private BoxCollider2D groundCollider;       //This stores a reference to the collider attached to the Ground.
