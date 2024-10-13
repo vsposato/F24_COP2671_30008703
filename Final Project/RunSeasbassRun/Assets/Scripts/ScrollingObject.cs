@@ -1,13 +1,11 @@
-﻿using System;
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 public class ScrollingObject : MonoBehaviour
 {
     // Use this for initialization
     [SerializeField] private float scrollSpeed = -5.0f;
     private PlayerController _playerControllerScript;
-    private float _leftBound = -12.5f;
+    private const float LeftBound = -12.5f;
 
     void Start()
     {
@@ -20,9 +18,14 @@ public class ScrollingObject : MonoBehaviour
         {
             transform.position += new Vector3(scrollSpeed, 0, 0) * Time.deltaTime;
         }
-        if (transform.position.x < _leftBound && gameObject.CompareTag("Obstacle"))
+        if (transform.position.x < LeftBound && gameObject.CompareTag("Obstacle"))
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetScrollSpeed(float newScrollSpeed)
+    {
+        this.scrollSpeed = newScrollSpeed;
     }
 }
