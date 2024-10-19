@@ -20,7 +20,6 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnObstacle()
     {
-        Debug.Log("Spawning obstacle");
         var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
         var obstacle = obstaclePrefab[obstacleNumber];
@@ -30,7 +29,6 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnCoin()
     {
-        Debug.Log("Spawning coin");
         var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var spawnCoins = Random.Range(1, 4);
         coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);

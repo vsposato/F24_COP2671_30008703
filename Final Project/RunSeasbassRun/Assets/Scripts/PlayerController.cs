@@ -82,13 +82,11 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("Ground collision");
             isOnGround = true;
             _playerAudio.PlayOneShot(jumpEndSound, 1.0f);
         }
         else if (collision.gameObject.CompareTag("Obstacle") && _gameManagerScript.IsGameActive())
         {
-            Debug.Log("Game Over!");
             _playerAnim.SetBool(DeathB, true);
             _playerAnim.SetInteger(DeathTypeINT, 1);
             _playerAudio.PlayOneShot(crashSound, 1.0f);
@@ -100,7 +98,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Coin"))
         {
-            Debug.Log("Picked up coin!");
             _gameManagerScript.UpdateScore(1);
             Destroy(collision.gameObject);
             // _playerAudio.PlayOneShot(jumpEndSound, 1.0f);

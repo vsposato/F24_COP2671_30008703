@@ -16,12 +16,10 @@ public class ScrollingObject : MonoBehaviour
     {
         if (_gameManager.IsGameActive())
         {
-            Debug.Log("Entered transformation for movement");
             transform.position += new Vector3(scrollSpeed, 0, 0) * Time.deltaTime;
         }
         if (transform.position.x < LeftBound && gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("Entered transformation for destruction");
             Destroy(gameObject);
             _gameManager.UpdateScore(1);
         }
