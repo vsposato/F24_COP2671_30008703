@@ -4,23 +4,24 @@ public class ScrollingObject : MonoBehaviour
 {
     // Use this for initialization
     [SerializeField] private float scrollSpeed = -5.0f;
-    private PlayerController _playerControllerScript;
+    private GameManager _gameManager;
     private const float LeftBound = -12.5f;
 
-    void Start()
+    private void Start()
     {
-        _playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void Update()
     {
-        if (_playerControllerScript.GameActive())
+        if (_gameManager.IsGameActive())
         {
             transform.position += new Vector3(scrollSpeed, 0, 0) * Time.deltaTime;
         }
         if (transform.position.x < LeftBound && gameObject.CompareTag("Obstacle"))
         {
             Destroy(gameObject);
+            _gameManager.UpdateScore(1);
         }
     }
 

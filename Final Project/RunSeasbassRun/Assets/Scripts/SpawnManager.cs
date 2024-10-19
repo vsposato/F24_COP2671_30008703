@@ -2,35 +2,44 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject[] obstaclePrefab;
-    private readonly Vector3 _spawnPos = new Vector3(25, 0, -4);
-    private readonly float _startDelay = 2.0f;
-    private readonly float _repeatRate = 2.0f;
-    private PlayerController _playerControllerScript;
+    [Tooltip("Obstacles to be spawned during the game")] [SerializeField]
+    private GameObject[] obstaclePrefab;
+
+    private readonly Vector3 _obstacleSpawnPos = new Vector3(25, 0, -4);
+
+    [Tooltip("Coin to be spawned during the game")] [SerializeField]
+    private GameObject coinPrefab;
+
+    private readonly Vector3 _coinSpawnPos = new Vector3(25, 0, -3.25f);
+
+    private GameManager _gameManagerScript;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
-        InvokeRepeating("SpawnObstacle", _startDelay, _repeatRate);
+        _gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
 
-    void SpawnObstacle()
+    public void SpawnObstacle()
     {
-        if (!_playerControllerScript.GameActive())
-        {
-            return;
-        }
-
         var obstacleScrollSpeed = Random.Range(-7.0f, -8.0f);
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
         var obstacle = obstaclePrefab[obstacleNumber];
         obstacle.GetComponent<ScrollingObject>().SetScrollSpeed(obstacleScrollSpeed);
-        Instantiate(obstacle, _spawnPos, obstacle.transform.rotation);
+        Instantiate(obstacle, _obstacleSpawnPos, obstacle.transform.rotation);
+    }
+
+    public void SpawnCoin()
+    {
+        var coinScrollSpeed = Random.Range(-7.0f, -8.0f);
+        var spawnCoins = Random.Range(1, 4);
+        coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);
+        var coinSpawnPos = _coinSpawnPos + new Vector3(0, Random.Range(1, 7.5f), 0);
+        for (var i = 0; i < spawnCoins; i++)
+        {
+            coinSpawnPos += new Vector3(i * 1.5f, 0, 0);
+            Instantiate(coinPrefab, coinSpawnPos, coinPrefab.transform.rotation);
+        }
     }
 }

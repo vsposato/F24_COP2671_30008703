@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _playerRb;
     private Animator _playerAnim;
     private AudioSource _playerAudio;
+    private GameManager _gameManagerScript;
 
     [Header("Movement Settings")]
     [SerializeField]
@@ -37,23 +39,24 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Sound to for running")] [SerializeField]
     private AudioClip runSound;
 
-    void Start()
+    private void Start()
     {
         _playerRb = GetComponent<Rigidbody>();
         _playerAnim = GetComponent<Animator>();
         _playerAudio = GetComponent<AudioSource>();
+        _gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         Physics.gravity *= gravityModifier;
     }
 
-    void Update()
+    private void Update()
     {
         HandleJump();
     }
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && GameActive())
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && _gameManagerScript.IsGameActive())
         {
             isOnGround = false;
             _playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -73,15 +76,20 @@ public class PlayerController : MonoBehaviour
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Game Over!");
-            gameOver = true;
+            _gameManagerScript.SetGameOver(true);
             _playerAnim.SetBool(DeathB, true);
             _playerAnim.SetInteger(DeathTypeINT, 1);
             _playerAudio.PlayOneShot(crashSound, 1.0f);
         }
     }
 
-    public bool GameActive()
+    private void OnTriggerEnter(Collider collision)
     {
-        return !gameOver;
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            Debug.Log("Picked up coin!");
+            _gameManagerScript.UpdateScore(1);
+            // _playerAudio.PlayOneShot(jumpEndSound, 1.0f);
+        }
     }
 }
