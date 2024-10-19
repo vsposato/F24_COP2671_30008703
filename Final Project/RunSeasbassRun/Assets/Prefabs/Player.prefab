@@ -334,6 +334,7 @@ MonoBehaviour:
   jumpStartSound: {fileID: 8300000, guid: 665f92bb69e46a94a8caf3717dbb0d5e, type: 3}
   jumpEndSound: {fileID: 8300000, guid: 7131d701ae015a54aa3d856feccd513f, type: 3}
   crashSound: {fileID: 8300000, guid: 4bcde6de2166e41e284ec46d8a01fb90, type: 3}
+  pickupSound: {fileID: 8300000, guid: 08ab7053d586c458db3774d33c141a4b, type: 3}
   runSound: {fileID: 8300000, guid: 924e3e09c67130946a6d7b666e8b8b68, type: 3}
 --- !u!65 &7617433804775231138
 BoxCollider:
