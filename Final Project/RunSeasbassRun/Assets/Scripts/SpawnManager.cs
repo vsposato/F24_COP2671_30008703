@@ -12,18 +12,16 @@ public class SpawnManager : MonoBehaviour
 
     private readonly Vector3 _coinSpawnPos = new Vector3(25, 0, -3.25f);
 
-    private GameManager _gameManagerScript;
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        _gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
-
+    private const float MinScrollSpeed = -7.0f;
+    private const float MaxScrollSpeed = -8.0f;
+    private const float MinCoinSpawnY = 3.5f;
+    private const float MaxCoinSpawnY = 7.5f;
+    private const float MultipleCoinSpacingX = 1.5f;
 
     public void SpawnObstacle()
     {
-        var obstacleScrollSpeed = Random.Range(-7.0f, -8.0f);
+        Debug.Log("Spawning obstacle");
+        var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
         var obstacle = obstaclePrefab[obstacleNumber];
         obstacle.GetComponent<ScrollingObject>().SetScrollSpeed(obstacleScrollSpeed);
@@ -32,13 +30,15 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnCoin()
     {
-        var coinScrollSpeed = Random.Range(-7.0f, -8.0f);
+        Debug.Log("Spawning coin");
+        var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var spawnCoins = Random.Range(1, 4);
         coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);
-        var coinSpawnPos = _coinSpawnPos + new Vector3(0, Random.Range(1, 7.5f), 0);
+
+        var coinSpawnPos = _coinSpawnPos + new Vector3(0, Random.Range(MinCoinSpawnY, MaxCoinSpawnY), 0);
         for (var i = 0; i < spawnCoins; i++)
         {
-            coinSpawnPos += new Vector3(i * 1.5f, 0, 0);
+            coinSpawnPos += new Vector3(i * MultipleCoinSpacingX, 0, 0);
             Instantiate(coinPrefab, coinSpawnPos, coinPrefab.transform.rotation);
         }
     }

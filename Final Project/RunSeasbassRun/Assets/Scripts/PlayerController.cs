@@ -13,19 +13,20 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField]
+    [Range(1, 10)]
     [Tooltip("The force added to the player when jumping.")]
-    private float jumpForce = 700.0f;
+    private float jumpForce = 2.0f;
 
-    [Tooltip("A physics gravity modifier.")] [SerializeField]
-    private float gravityModifier = 1.5f;
+    [Tooltip("Fall Multiplier")] [SerializeField]
+    private float fallMultiplier = 2.5f;
+
+    [Tooltip("Low Jump Multiplier")] [SerializeField]
+    private float lowJumpMultiplier = 2f;
 
     [Header("Game Tracker")]
     [SerializeField]
     [Tooltip("Whether the player is currently on the ground.")]
     private bool isOnGround = true;
-
-    [Tooltip("Game status")] [SerializeField]
-    private bool gameOver = false;
 
     [Header("Sound Effects")] [SerializeField] [Tooltip("Sound to for jump start")]
     private AudioClip jumpStartSound;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Sound to for running")] [SerializeField]
     private AudioClip runSound;
 
+
     private void Start()
     {
         _playerRb = GetComponent<Rigidbody>();
@@ -46,7 +48,6 @@ public class PlayerController : MonoBehaviour
         _playerAudio = GetComponent<AudioSource>();
         _gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        Physics.gravity *= gravityModifier;
     }
 
     private void Update()
@@ -59,9 +60,21 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround && _gameManagerScript.IsGameActive())
         {
             isOnGround = false;
-            _playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            _playerRb.velocity = Vector3.up * jumpForce;
             _playerAnim.SetTrigger(JumpTrig);
             _playerAudio.PlayOneShot(jumpStartSound, 1.0f);
+        }
+
+        switch (_playerRb.velocity.y)
+        {
+            case < 0:
+                _playerRb.velocity +=
+                    Vector3.up * (Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime);
+                break;
+            case > 0 when !Input.GetKey(KeyCode.Space):
+                _playerRb.velocity +=
+                    Vector3.up * (Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime);
+                break;
         }
     }
 
@@ -73,13 +86,13 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
             _playerAudio.PlayOneShot(jumpEndSound, 1.0f);
         }
-        else if (collision.gameObject.CompareTag("Obstacle"))
+        else if (collision.gameObject.CompareTag("Obstacle") && _gameManagerScript.IsGameActive())
         {
             Debug.Log("Game Over!");
-            _gameManagerScript.SetGameOver(true);
             _playerAnim.SetBool(DeathB, true);
             _playerAnim.SetInteger(DeathTypeINT, 1);
             _playerAudio.PlayOneShot(crashSound, 1.0f);
+            _gameManagerScript.GameOver();
         }
     }
 
@@ -89,6 +102,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Picked up coin!");
             _gameManagerScript.UpdateScore(1);
+            Destroy(collision.gameObject);
             // _playerAudio.PlayOneShot(jumpEndSound, 1.0f);
         }
     }

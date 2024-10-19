@@ -428,7 +428,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 847b59bc0c490456a95f9c5a9c59b14b, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
   Loop: 1
@@ -2586,6 +2586,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   difficulty: 2
+--- !u!1 &1691784621 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2104286292218060992, guid: 99fc90c6b78354c16b1ac785490066b6, type: 3}
+  m_PrefabInstance: {fileID: 5490342016082995476}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1963982839
 GameObject:
   m_ObjectHideFlags: 0
@@ -2750,11 +2755,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1207764998}
-  timerText: {fileID: 0}
+  timerText: {fileID: 825224785}
   gameOverText: {fileID: 1963982841}
   restartButton: {fileID: 703057477}
   titleScreen: {fileID: 875891025}
-  gameOver: 0
+  mainCamera: {fileID: 213342097}
+  player: {fileID: 1691784621}
+  gameOver: 1
 --- !u!4 &2022265390
 Transform:
   m_ObjectHideFlags: 0
@@ -2821,6 +2828,18 @@ PrefabInstance:
     - target: {fileID: 2104286292218060992, guid: 99fc90c6b78354c16b1ac785490066b6, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2416306283144902882, guid: 99fc90c6b78354c16b1ac785490066b6, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920876783533308666, guid: 99fc90c6b78354c16b1ac785490066b6, type: 3}
+      propertyPath: jumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920876783533308666, guid: 99fc90c6b78354c16b1ac785490066b6, type: 3}
+      propertyPath: gravityModifier
+      value: 1.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
