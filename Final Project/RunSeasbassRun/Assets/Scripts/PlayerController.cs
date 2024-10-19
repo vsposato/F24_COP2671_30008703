@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,8 +15,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField]
     [Range(1, 10)]
-    [Tooltip("The force added to the player when jumping.")]
-    private float jumpForce = 2.0f;
+    [Tooltip("The velocity added to the player when jumping.")]
+    private float jumpVelocity = 2.0f;
 
     [Tooltip("Fall Multiplier")] [SerializeField]
     private float fallMultiplier = 2.5f;
@@ -60,9 +61,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround && _gameManagerScript.IsGameActive())
         {
             isOnGround = false;
-            _playerRb.velocity = Vector3.up * jumpForce;
+            _playerRb.velocity = Vector3.up * jumpVelocity;
             _playerAnim.SetTrigger(JumpTrig);
-            _playerAudio.PlayOneShot(jumpStartSound, 1.0f);
+            _playerAudio.PlayOneShot(jumpStartSound, 2.0f);
         }
 
         switch (_playerRb.velocity.y)
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
-            _playerAudio.PlayOneShot(jumpEndSound, 1.0f);
+            _playerAudio.PlayOneShot(jumpEndSound, 2.0f);
         }
         else if (collision.gameObject.CompareTag("Obstacle") && _gameManagerScript.IsGameActive())
         {
