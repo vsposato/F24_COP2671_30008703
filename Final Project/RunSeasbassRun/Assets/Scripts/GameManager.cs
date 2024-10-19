@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
 
     private int _score;
     private int _timer;
-    private int _difficulty;
     private SpawnManager _spawnManager;
     private AudioSource _mainCameraAudioSource;
     private Animator _playerAnim;
@@ -76,7 +75,6 @@ public class GameManager : MonoBehaviour
             DecrementTimer();
             if (_timer == 0)
             {
-                Debug.Log("Timed out end game");
                 GameOver();
             }
         }
@@ -88,7 +86,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = $"Score: {_score}";
     }
 
-    public void DecrementTimer()
+    private void DecrementTimer()
     {
         _timer--;
         timerText.text = $"Time: {_timer}";
@@ -110,19 +108,13 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(int difficulty)
     {
-        Debug.Log("Starting Game");
 
-        _difficulty = difficulty;
-        Debug.Log($"Difficulty {_difficulty}");
-        _obstacleSpawnRate /= _difficulty;
-        Debug.Log($"Obstacle Spawn Rate {_obstacleSpawnRate}");
-        _coinSpawnRate *= _difficulty;
-        Debug.Log($"Coin Spawn Rate {_coinSpawnRate}");
+        _obstacleSpawnRate /= difficulty;
+        _coinSpawnRate *= difficulty;
         SetGameOver(false);
         _score = 0;
         _timer = 60;
 
-        Debug.Log("Running coroutines");
         StartCoroutine(SpawnTarget());
         StartCoroutine(SpawnCoin());
         StartCoroutine(CountdownTimer());
@@ -138,7 +130,7 @@ public class GameManager : MonoBehaviour
         return !gameOver;
     }
 
-    public void SetGameOver(bool currentStatus)
+    private void SetGameOver(bool currentStatus)
     {
         gameOver = currentStatus;
     }
