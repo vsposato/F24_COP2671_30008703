@@ -32,11 +32,14 @@ public class PlayerController : MonoBehaviour
     [Header("Sound Effects")] [SerializeField] [Tooltip("Sound to for jump start")]
     private AudioClip jumpStartSound;
 
-    [Tooltip("Sound to for landing jump")] [SerializeField]
+    [Tooltip("Sound to play for landing jump")] [SerializeField]
     private AudioClip jumpEndSound;
 
-    [Tooltip("Sound to for crashing")] [SerializeField]
+    [Tooltip("Sound to play for crashing")] [SerializeField]
     private AudioClip crashSound;
+
+    [Tooltip("Sound to play for coin pickup")] [SerializeField]
+    private AudioClip pickupSound;
 
     [Tooltip("Sound to for running")] [SerializeField]
     private AudioClip runSound;
@@ -101,7 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             _gameManagerScript.UpdateScore(1);
             Destroy(collision.gameObject);
-            // _playerAudio.PlayOneShot(jumpEndSound, 1.0f);
+            _playerAudio.PlayOneShot(pickupSound, 1.0f);
         }
     }
 }

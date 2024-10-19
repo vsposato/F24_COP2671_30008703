@@ -327,10 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 815728d1758fd41409d419d28bb7c9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 700
-  gravityModifier: 1.5
+  jumpVelocity: 10
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2
   isOnGround: 1
-  gameOver: 0
   jumpStartSound: {fileID: 8300000, guid: 665f92bb69e46a94a8caf3717dbb0d5e, type: 3}
   jumpEndSound: {fileID: 8300000, guid: 7131d701ae015a54aa3d856feccd513f, type: 3}
   crashSound: {fileID: 8300000, guid: 4bcde6de2166e41e284ec46d8a01fb90, type: 3}
@@ -364,7 +364,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104286292218060992}
   serializedVersion: 4
-  m_Mass: 60
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
