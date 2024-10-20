@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class handles the objects scrolling across the screen and destroying objects as they leave
+/// the view.
+/// </summary>
 public class ScrollingObject : MonoBehaviour
 {
     // Use this for initialization

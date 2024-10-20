@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class handles repeating the background for perpetual horizontal running.
+/// </summary>
 public class RepeatingBackground : MonoBehaviour
 {
     //A float to store the x-axis length of the collider2D attached to the Ground GameObject.

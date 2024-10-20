@@ -1,17 +1,19 @@
 using UnityEngine;
 
+/// <summary>
+/// This class handles spawning of obstacles and coins.
+/// </summary>
 public class SpawnManager : MonoBehaviour
 {
     [Tooltip("Obstacles to be spawned during the game")]
     [SerializeField]
     private GameObject[] obstaclePrefab;
 
-    private readonly Vector3 _obstacleSpawnPos = new Vector3(25, 0, -4);
-
     [Tooltip("Coin to be spawned during the game")]
     [SerializeField]
     private GameObject coinPrefab;
 
+    private readonly Vector3 _obstacleSpawnPos = new Vector3(25, 0, -4);
     private readonly Vector3 _coinSpawnPos = new Vector3(25, 0, -3.25f);
 
     private const float MinScrollSpeed = -7.0f;

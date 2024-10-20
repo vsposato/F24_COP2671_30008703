@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// This class represents a difficulty button in the game. It is responsible for setting the difficulty level when clicked.
+/// This class represents a difficulty button in the game. It is responsible for setting the
+/// difficulty level for the game when clicked.
 /// </summary>
 public class DifficultyButton : MonoBehaviour
 {

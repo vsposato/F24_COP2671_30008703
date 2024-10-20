@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.Serialization;
-
+/// <summary>
+/// This class represents the controller for the player to handle jumping & collisions.
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
     private static readonly int DeathB = Animator.StringToHash("Death_b");
