@@ -22,36 +22,41 @@ public class SpawnManager : MonoBehaviour
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
 
-    private bool _spawnInProgress = false;
+    public static bool SpawnInProgress = false;
 
     /// <summary>
     /// Spawns a random obstacle from the obstaclePrefab array at the _obstacleSpawnPos.
     /// </summary>
     public void SpawnObstacle()
     {
-        if (_spawnInProgress)
+        if (SpawnInProgress)
         {
+            Debug.Log("Skipping Obstacle spawn due to coins being spawned");
             return;
         }
-        _spawnInProgress = true;
+        Debug.Log("Spawning Obstacle");
+        SpawnInProgress = true;
         var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
         var obstacle = obstaclePrefab[obstacleNumber];
         obstacle.GetComponent<ScrollingObject>().SetScrollSpeed(obstacleScrollSpeed);
         Instantiate(obstacle, _obstacleSpawnPos, obstacle.transform.rotation);
-        _spawnInProgress = false;
+        SpawnInProgress = false;
     }
 
     /// <summary>
-    /// Spawns a random number of coins (1-3) from the coinPrefab at random Y positions around _coinSpawnPos.
+    /// Spawns a random number of coins (1-3) from the coinPrefab at random Y positions
+    /// around _coinSpawnPos.
     /// </summary>
     public void SpawnCoin()
     {
-        if (_spawnInProgress)
+        if (SpawnInProgress)
         {
+            Debug.Log("Skipping Coin spawn due to obstacle being spawned");
             return;
         }
-        _spawnInProgress = true;
+        Debug.Log("Spawning Coin");
+        SpawnInProgress = true;
         var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var spawnCoins = Random.Range(1, 4);
         coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);
@@ -63,7 +68,7 @@ public class SpawnManager : MonoBehaviour
             coinSpawnPos += new Vector3(i * MultipleCoinSpacingX, 0, 0);
             Instantiate(coinPrefab, coinSpawnPos, coinPrefab.transform.rotation);
         }
-        _spawnInProgress = false;
+        SpawnInProgress = false;
 
     }
 }

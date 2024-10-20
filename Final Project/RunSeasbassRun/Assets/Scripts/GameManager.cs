@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     private AudioSource _mainCameraAudioSource;
     private Animator _playerAnim;
     private float _obstacleSpawnRate = 3.0f;
-    private float _coinSpawnRate = 1.5f;
+    private float _coinSpawnRate = 3.0f;
 
     /// <summary>
     /// Initializes the game components and sets up the initial game state.
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         while (IsGameActive())
         {
             // Wait for the specified obstacle spawn rate before spawning the next obstacle
-            yield return new WaitForSecondsRealtime(_obstacleSpawnRate);
+            yield return new WaitForSeconds(_obstacleSpawnRate);
 
             // Call the SpawnObstacle method on the SpawnManager to create a new obstacle
             _spawnManager.SpawnObstacle();
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         while (IsGameActive())
         {
             // Wait for the specified coin spawn rate before spawning the next coin
-            yield return new WaitForSecondsRealtime(_coinSpawnRate);
+            yield return new WaitForSeconds(_coinSpawnRate);
 
             // Call the SpawnCoin method on the SpawnManager to create a new coin
             _spawnManager.SpawnCoin();
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
         while (IsGameActive())
         {
             // Wait for one second before decrementing the timer
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSeconds(1);
 
             // Decrement the timer
             DecrementTimer();
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
     /// Handles the game over sequence by activating the game over text, restart button, stopping the main camera audio,
     /// disabling the player's animator, and setting the game over status.
     /// </summary>
-    public void GameOver()
+    public void GameOver(bool isPlayerDead = false)
     {
         // Set the game over status to true
         SetGameOver(true);
@@ -163,6 +163,13 @@ public class GameManager : MonoBehaviour
 
         // Stop the main camera audio
         _mainCameraAudioSource.Stop();
+
+        if (!isPlayerDead)
+        {
+            // Disable the player's Animator component
+            _playerAnim.enabled = false;
+        }
+
     }
 
     /// <summary>

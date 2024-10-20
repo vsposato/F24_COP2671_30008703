@@ -161,8 +161,8 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Stop();
             explosionParticle.Play();
 
-            // End the game
-            _gameManagerScript.GameOver();
+            // End the game with player death
+            _gameManagerScript.GameOver(true);
         }
     }
 
