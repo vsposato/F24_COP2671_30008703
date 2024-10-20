@@ -22,16 +22,24 @@ public class SpawnManager : MonoBehaviour
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
 
+    private bool _spawnInProgress = false;
+
     /// <summary>
     /// Spawns a random obstacle from the obstaclePrefab array at the _obstacleSpawnPos.
     /// </summary>
     public void SpawnObstacle()
     {
+        if (_spawnInProgress)
+        {
+            return;
+        }
+        _spawnInProgress = true;
         var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
         var obstacle = obstaclePrefab[obstacleNumber];
         obstacle.GetComponent<ScrollingObject>().SetScrollSpeed(obstacleScrollSpeed);
         Instantiate(obstacle, _obstacleSpawnPos, obstacle.transform.rotation);
+        _spawnInProgress = false;
     }
 
     /// <summary>
@@ -39,6 +47,11 @@ public class SpawnManager : MonoBehaviour
     /// </summary>
     public void SpawnCoin()
     {
+        if (_spawnInProgress)
+        {
+            return;
+        }
+        _spawnInProgress = true;
         var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var spawnCoins = Random.Range(1, 4);
         coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);
@@ -50,5 +63,7 @@ public class SpawnManager : MonoBehaviour
             coinSpawnPos += new Vector3(i * MultipleCoinSpacingX, 0, 0);
             Instantiate(coinPrefab, coinSpawnPos, coinPrefab.transform.rotation);
         }
+        _spawnInProgress = false;
+
     }
 }
