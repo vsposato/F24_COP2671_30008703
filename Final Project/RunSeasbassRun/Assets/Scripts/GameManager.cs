@@ -11,28 +11,36 @@ using UnityEngine.UI;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    [Tooltip("Score Text object")] [SerializeField]
+    [Tooltip("Score Text object")]
+    [SerializeField]
     private TextMeshProUGUI scoreText;
 
-    [Tooltip("Timer Text object")] [SerializeField]
+    [Tooltip("Timer Text object")]
+    [SerializeField]
     private TextMeshProUGUI timerText;
 
-    [Tooltip("Game Over Text object")] [SerializeField]
+    [Tooltip("Game Over Text object")]
+    [SerializeField]
     private TextMeshProUGUI gameOverText;
 
-    [Tooltip("Restart Button object")] [SerializeField]
+    [Tooltip("Restart Button object")]
+    [SerializeField]
     private Button restartButton;
 
-    [Tooltip("Title Screen object")] [SerializeField]
+    [Tooltip("Title Screen object")]
+    [SerializeField]
     private GameObject titleScreen;
 
-    [Tooltip("Main Camera object")] [SerializeField]
+    [Tooltip("Main Camera object")]
+    [SerializeField]
     private GameObject mainCamera;
 
-    [Tooltip("Player object")] [SerializeField]
+    [Tooltip("Player object")]
+    [SerializeField]
     private GameObject player;
 
-    [Tooltip("Game status")] [SerializeField]
+    [Tooltip("Game status")]
+    [SerializeField]
     private bool gameOver = true;
 
     private int _score;

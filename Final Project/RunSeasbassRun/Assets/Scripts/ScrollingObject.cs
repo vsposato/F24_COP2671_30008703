@@ -3,7 +3,9 @@
 public class ScrollingObject : MonoBehaviour
 {
     // Use this for initialization
-    [SerializeField] private float scrollSpeed = -5.0f;
+    [SerializeField]
+    private float scrollSpeed = -5.0f;
+
     private GameManager _gameManager;
     private const float LeftBound = -12.5f;
 

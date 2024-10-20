@@ -14,34 +14,51 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField]
-    [Range(1, 10)]
+    [Range(1, 20)]
     [Tooltip("The velocity added to the player when jumping.")]
-    private float jumpVelocity = 2.0f;
+    private float jumpVelocity = 10.0f;
 
-    [Tooltip("Fall Multiplier")] [SerializeField]
+    [Tooltip("Fall Multiplier")]
+    [SerializeField]
     private float fallMultiplier = 2.5f;
 
-    [Tooltip("Low Jump Multiplier")] [SerializeField]
+    [Tooltip("Low Jump Multiplier")]
+    [SerializeField]
     private float lowJumpMultiplier = 2f;
+
+    [Header("Particle Settings")]
+    [SerializeField]
+    [Tooltip("Effect to play when death occurs")]
+    private ParticleSystem explosionParticle;
+
+    [SerializeField]
+    [Tooltip("Effect to play when player is running")]
+    private ParticleSystem dirtParticle;
 
     [Header("Game Tracker")]
     [SerializeField]
     [Tooltip("Whether the player is currently on the ground.")]
     private bool isOnGround = true;
 
-    [Header("Sound Effects")] [SerializeField] [Tooltip("Sound to for jump start")]
+    [Header("Sound Effects")]
+    [SerializeField]
+    [Tooltip("Sound to for jump start")]
     private AudioClip jumpStartSound;
 
-    [Tooltip("Sound to play for landing jump")] [SerializeField]
+    [Tooltip("Sound to play for landing jump")]
+    [SerializeField]
     private AudioClip jumpEndSound;
 
-    [Tooltip("Sound to play for crashing")] [SerializeField]
+    [Tooltip("Sound to play for crashing")]
+    [SerializeField]
     private AudioClip crashSound;
 
-    [Tooltip("Sound to play for coin pickup")] [SerializeField]
+    [Tooltip("Sound to play for coin pickup")]
+    [SerializeField]
     private AudioClip pickupSound;
 
-    [Tooltip("Sound to for running")] [SerializeField]
+    [Tooltip("Sound to for running")]
+    [SerializeField]
     private AudioClip runSound;
 
 
@@ -87,6 +104,9 @@ public class PlayerController : MonoBehaviour
 
             // Play the jump start sound
             _playerAudio.PlayOneShot(jumpStartSound, 2.0f);
+
+            // Stop the dirt particles on player
+            dirtParticle.Stop();
         }
 
         // Check the player's vertical velocity
@@ -122,6 +142,9 @@ public class PlayerController : MonoBehaviour
 
             // Play the jump end sound
             _playerAudio.PlayOneShot(jumpEndSound, 2.0f);
+
+            // Start the dirt particles on player
+            dirtParticle.Play();
         }
         // Check if the collision object has the "Obstacle" tag and the game is active
         else if (collision.gameObject.CompareTag("Obstacle") && _gameManagerScript.IsGameActive())
@@ -132,6 +155,10 @@ public class PlayerController : MonoBehaviour
 
             // Play the crash sound
             _playerAudio.PlayOneShot(crashSound, 1.0f);
+
+            // Stop the dirt particles on player and play the explosion particles
+            dirtParticle.Stop();
+            explosionParticle.Play();
 
             // End the game
             _gameManagerScript.GameOver();

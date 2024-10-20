@@ -8,7 +8,9 @@ using UnityEngine.UI;
 /// </summary>
 public class DifficultyButton : MonoBehaviour
 {
-    [Header("Difficulty Values")] [SerializeField] [Tooltip("The value to be used for this button")]
+    [Header("Difficulty Values")]
+    [SerializeField]
+    [Tooltip("The value to be used for this button")]
     private int difficulty;
 
     private GameManager _gameManager;
