@@ -1,6 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 /// <summary>
 /// This class represents the controller for the player to handle jumping & collisions.
 /// </summary>

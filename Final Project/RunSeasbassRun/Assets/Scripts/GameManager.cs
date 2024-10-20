@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -144,11 +142,8 @@ public class GameManager : MonoBehaviour
     /// </remarks>
     private void DecrementTimer()
     {
-        // Decrement the timer by one
-        _timer--;
-
-        // Update the timer text UI with the current timer value
-        timerText.text = $"Time: {_timer}";
+        // Decrement the timer by one & update the timer text UI with the current timer value
+        timerText.text = $"Time: {--_timer}";
     }
 
     /// <summary>
@@ -157,6 +152,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
+        // Set the game over status to true
+        SetGameOver(true);
+
         // Activate the game over text
         gameOverText.gameObject.SetActive(true);
 
@@ -168,9 +166,6 @@ public class GameManager : MonoBehaviour
 
         // Disable the player's animator
         _playerAnim.enabled = false;
-
-        // Set the game over status to true
-        SetGameOver(true);
     }
 
     /// <summary>
@@ -198,16 +193,24 @@ public class GameManager : MonoBehaviour
     /// </remarks>
     public void StartGame(int difficulty)
     {
-        _obstacleSpawnRate /= difficulty;
-        _coinSpawnRate *= difficulty;
+        // Set GameOver status to false
         SetGameOver(false);
+        // Divide the obstacle spawn rate by the difficulty to speed up the obstacles
+        _obstacleSpawnRate /= difficulty;
+        // Multiply the coin spawn rate by the difficulty to slow down the coins
+        _coinSpawnRate *= difficulty;
+        // Multiply the timer base of 30 seconds by 4 - difficulty
+        _timer = 30 * (4 - difficulty);
         _score = 0;
-        _timer = 60;
 
+
+        // Start the CoRoutines for spawning obstacles and coins, and a coroutine for counting
+        // down the timer
         StartCoroutine(SpawnTarget());
         StartCoroutine(SpawnCoin());
         StartCoroutine(CountdownTimer());
 
+        // Deactivate the game over text, restart button, and title screen
         UpdateScore(0);
         titleScreen.gameObject.SetActive(false);
         _mainCameraAudioSource.Play();
