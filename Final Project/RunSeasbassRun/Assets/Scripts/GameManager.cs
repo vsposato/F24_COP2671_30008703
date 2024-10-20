@@ -163,9 +163,6 @@ public class GameManager : MonoBehaviour
 
         // Stop the main camera audio
         _mainCameraAudioSource.Stop();
-
-        // Disable the player's animator
-        _playerAnim.enabled = false;
     }
 
     /// <summary>
@@ -201,8 +198,9 @@ public class GameManager : MonoBehaviour
         _coinSpawnRate *= difficulty;
         // Multiply the timer base of 30 seconds by 4 - difficulty
         _timer = 30 * (4 - difficulty);
+        timerText.text = $"Time: {_timer}";
+        // Set score to zero
         _score = 0;
-
 
         // Start the CoRoutines for spawning obstacles and coins, and a coroutine for counting
         // down the timer

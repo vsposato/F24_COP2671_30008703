@@ -172,17 +172,19 @@ public class PlayerController : MonoBehaviour
     /// <param name="collision">The collision data containing information about the collision.</param>
     private void OnTriggerEnter(Collider collision)
     {
-        // Check if the collision object has the "Coin" tag
-        if (collision.gameObject.CompareTag("Coin"))
+        // Check if the collision object has the "Coin" tag, and if not return
+        if (!collision.gameObject.CompareTag("Coin"))
         {
-            // Update the game score by 1
-            _gameManagerScript.UpdateScore(1);
-
-            // Destroy the coin game object
-            Destroy(collision.gameObject);
-
-            // Play the coin pickup sound
-            _playerAudio.PlayOneShot(pickupSound, 1.0f);
+            return;
         }
+
+        // Update the game score by 1
+        _gameManagerScript.UpdateScore(1);
+
+        // Play the coin pickup sound
+        _playerAudio.PlayOneShot(pickupSound, 1.0f);
+
+        // Destroy the coin game object
+        Destroy(collision.gameObject);
     }
 }
