@@ -2,8 +2,8 @@
 
 ## Controls
 * Space bar is used for jump.
-** Hold space bar down to have a prolonged jump
-** Tap space bar for a shorter jump
+  * Hold space bar down to have a prolonged jump
+  * Tap space bar for a shorter jump
 * Escape key is used to pause/unpause game
 
 ## Scoring
