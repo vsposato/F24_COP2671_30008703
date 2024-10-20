@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         while (IsGameActive())
         {
             // Wait for the specified obstacle spawn rate before spawning the next obstacle
-            yield return new WaitForSeconds(_obstacleSpawnRate);
+            yield return new WaitForSecondsRealtime(_obstacleSpawnRate);
 
             // Call the SpawnObstacle method on the SpawnManager to create a new obstacle
             _spawnManager.SpawnObstacle();
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         while (IsGameActive())
         {
             // Wait for the specified coin spawn rate before spawning the next coin
-            yield return new WaitForSeconds(_coinSpawnRate);
+            yield return new WaitForSecondsRealtime(_coinSpawnRate);
 
             // Call the SpawnCoin method on the SpawnManager to create a new coin
             _spawnManager.SpawnCoin();
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
         while (IsGameActive())
         {
             // Wait for one second before decrementing the timer
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
 
             // Decrement the timer
             DecrementTimer();
