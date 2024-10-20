@@ -11,6 +11,7 @@ using UnityEngine.UI;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    [Header("UI Settings")]
     [Tooltip("Score Text object")]
     [SerializeField]
     private TextMeshProUGUI scoreText;
@@ -39,10 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
-    [Tooltip("Game status")]
-    [SerializeField]
-    private bool gameOver = true;
-
+    private bool _gameOver = true;
     private int _score;
     private int _timer;
     private SpawnManager _spawnManager;
@@ -225,7 +223,7 @@ public class GameManager : MonoBehaviour
     /// </returns>
     public bool IsGameActive()
     {
-        return !gameOver;
+        return !_gameOver;
     }
 
     /// <summary>
@@ -242,6 +240,6 @@ public class GameManager : MonoBehaviour
     /// </returns>
     private void SetGameOver(bool currentStatus)
     {
-        gameOver = currentStatus;
+        _gameOver = currentStatus;
     }
 }
