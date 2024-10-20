@@ -169,7 +169,6 @@ public class GameManager : MonoBehaviour
             // Disable the player's Animator component
             _playerAnim.enabled = false;
         }
-
     }
 
     /// <summary>
