@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -46,6 +47,14 @@ public class GameManager : MonoBehaviour
     private Animator _playerAnim;
     private float _obstacleSpawnRate = 3.0f;
     private float _coinSpawnRate = 3.0f;
+
+    private readonly Dictionary<float, DifficultyLevelInfo> _difficultyLevels =
+        new Dictionary<float, DifficultyLevelInfo>()
+        {
+            { 1, new DifficultyLevelInfo(4.0f, 2.0f, 60) },
+            { 2, new DifficultyLevelInfo(3.0f, 1.5f, 45) },
+            { 3, new DifficultyLevelInfo(2.0f, 1.0f, 30) },
+        };
 
     /// <summary>
     /// Initializes the game components and sets up the initial game state.
@@ -198,12 +207,14 @@ public class GameManager : MonoBehaviour
     {
         // Set GameOver status to false
         SetGameOver(false);
+        // Get the difficult level definition for the selected difficulty
+        var difficultyLevelInfo = _difficultyLevels[difficulty];
         // Divide the obstacle spawn rate by the difficulty to speed up the obstacles
-        _obstacleSpawnRate /= difficulty;
+        _obstacleSpawnRate = difficultyLevelInfo.ObstacleSpawnRate;
         // Multiply the coin spawn rate by the difficulty to slow down the coins
-        _coinSpawnRate *= difficulty;
+        _coinSpawnRate = difficultyLevelInfo.CoinSpawnRate;
         // Multiply the timer base of 30 seconds by 4 - difficulty
-        _timer = 30 * (4 - difficulty);
+        _timer = difficultyLevelInfo.Timer;
         timerText.text = $"Time: {_timer}";
         // Set score to zero
         _score = 0;
