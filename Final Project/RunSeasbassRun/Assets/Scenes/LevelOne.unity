@@ -426,7 +426,7 @@ AudioSource:
   m_GameObject: {fileID: 213342097}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2257210309664297112, guid: 9c8629d70913141dda6a6737e16403b0, type: 2}
   m_audioClip: {fileID: 8300000, guid: 847b59bc0c490456a95f9c5a9c59b14b, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
@@ -1546,11 +1546,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f6b9e591b9d4a1b81bfb492294d064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrintTrace: 0
   obstaclePrefab:
   - {fileID: 7278458553749031717, guid: a5d6bc74db76f4bc199ffe19b171847e, type: 3}
   - {fileID: 341399928861666539, guid: 515a4705f89414abe889a27ae374af3c, type: 3}
   - {fileID: 3298384811253027508, guid: c78920a09a91f42dcb7cc1f972f608d5, type: 3}
   coinPrefab: {fileID: 8204551621153414404, guid: 6da534a265226431591132a8561031fd, type: 3}
+  SpawnInProgress: 0
 --- !u!4 &1002216077
 Transform:
   m_ObjectHideFlags: 0
@@ -2890,6 +2892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675a1d3186f4c49d199bd240d0be2f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrintTrace: 0
   scoreText: {fileID: 1207764998}
   timerText: {fileID: 825224785}
   gameOverText: {fileID: 1963982841}

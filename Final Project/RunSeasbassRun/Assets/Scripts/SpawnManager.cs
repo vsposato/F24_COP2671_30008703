@@ -23,7 +23,7 @@ public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
 
-    public static bool SpawnInProgress = false;
+    public bool SpawnInProgress = false;
 
     /// <summary>
     /// Spawns a random obstacle from the obstaclePrefab array at the _obstacleSpawnPos.
@@ -32,10 +32,10 @@ public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
     {
         if (SpawnInProgress)
         {
-            Debug.Log("Skipping Obstacle spawn due to coins being spawned");
+            PrintLog("Skipping Obstacle spawn due to coins being spawned");
             return;
         }
-        Debug.Log("Spawning Obstacle");
+        PrintLog("Spawning Obstacle");
         SpawnInProgress = true;
         var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
@@ -53,10 +53,10 @@ public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
     {
         if (SpawnInProgress)
         {
-            Debug.Log("Skipping Coin spawn due to obstacle being spawned");
+            PrintLog("Skipping Coin spawn due to obstacle being spawned");
             return;
         }
-        Debug.Log("Spawning Coin");
+        PrintLog("Spawning Coin");
         SpawnInProgress = true;
         var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var spawnCoins = Random.Range(1, 4);
