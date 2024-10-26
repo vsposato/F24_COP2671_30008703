@@ -20,9 +20,10 @@ public class PauseControl : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI pauseText;
 
+
     /// <summary>
-    /// This function is responsible for checking if the escape key is pressed and if the game is active.
-    /// If both conditions are met, it toggles the game pause state.
+    /// This function is responsible for updating the game state based on the pause control.
+    /// It calls the HandlePause function every frame.
     /// </summary>
     private void Update()
     {
