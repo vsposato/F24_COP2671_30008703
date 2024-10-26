@@ -67,7 +67,7 @@ namespace Utilities
         /// </summary>
         private static T FindExistingInstance()
         {
-            T[] existingInstances = FindObjectsOfType<T>();
+            var existingInstances = FindObjectsOfType<T>();
 
             // No instance found
             if (existingInstances == null || existingInstances.Length == 0)
@@ -141,7 +141,7 @@ namespace Utilities
 
         private void Awake()
         {
-            T thisInstance = this.GetComponent<T>();
+            var thisInstance = this.GetComponent<T>();
 
             // Initialize the singleton if the script is already in the scene in a GameObject
             if (_instance == null)
