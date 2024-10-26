@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675a1d3186f4c49d199bd240d0be2f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrintTrace: 0
   scoreText: {fileID: 0}
   timerText: {fileID: 0}
   gameOverText: {fileID: 0}

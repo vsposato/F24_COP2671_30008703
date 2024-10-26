@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utilities;
 
 /// <summary>
 /// This class handles spawning of obstacles and coins.
 /// </summary>
-public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
+public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
 {
     [Tooltip("Obstacles to be spawned during the game")]
     [SerializeField]
@@ -23,26 +24,26 @@ public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
 
-    public bool SpawnInProgress = false;
+    public bool spawnInProgress = false;
 
     /// <summary>
     /// Spawns a random obstacle from the obstaclePrefab array at the _obstacleSpawnPos.
     /// </summary>
     public void SpawnObstacle()
     {
-        if (SpawnInProgress)
+        if (spawnInProgress)
         {
-            PrintLog("Skipping Obstacle spawn due to coins being spawned");
+            Debug.Log("Skipping Obstacle spawn due to coins being spawned");
             return;
         }
-        PrintLog("Spawning Obstacle");
-        SpawnInProgress = true;
+        Debug.Log("Spawning Obstacle");
+        spawnInProgress = true;
         var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
         var obstacle = obstaclePrefab[obstacleNumber];
         obstacle.GetComponent<ScrollingObject>().SetScrollSpeed(obstacleScrollSpeed);
         Instantiate(obstacle, _obstacleSpawnPos, obstacle.transform.rotation);
-        SpawnInProgress = false;
+        spawnInProgress = false;
     }
 
     /// <summary>
@@ -51,13 +52,13 @@ public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
     /// </summary>
     public void SpawnCoin()
     {
-        if (SpawnInProgress)
+        if (spawnInProgress)
         {
-            PrintLog("Skipping Coin spawn due to obstacle being spawned");
+            Debug.Log("Skipping Coin spawn due to obstacle being spawned");
             return;
         }
-        PrintLog("Spawning Coin");
-        SpawnInProgress = true;
+        Debug.Log("Spawning Coin");
+        spawnInProgress = true;
         var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
         var spawnCoins = Random.Range(1, 4);
         coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);
@@ -69,7 +70,7 @@ public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
             coinSpawnPos += new Vector3(i * MultipleCoinSpacingX, 0, 0);
             Instantiate(coinPrefab, coinSpawnPos, coinPrefab.transform.rotation);
         }
-        SpawnInProgress = false;
+        spawnInProgress = false;
 
     }
 }

@@ -10,7 +10,7 @@ using Utilities;
 /// <summary>
 /// The main game manager script that handles game logic, UI updates, and game flow.
 /// </summary>
-public class GameManager : MonoBehaviourSingleton<GameManager>
+public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     [Header("UI Settings")]
     [Tooltip("Score Text object")]
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     /// <summary>
     /// Initializes the game components and sets up the initial game state.
     /// </summary>
-    protected override void SingletonStarted()
+    protected override void InitializeAfterAwake()
     {
         // Retrieve the AudioSource component from the mainCamera GameObject
         _mainCameraAudioSource = mainCamera.GetComponent<AudioSource>();
@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
         // Disable the player's Animator component
         _playerAnim.enabled = false;
+        Debug.Log(string.Format(
+            "SingletonAwakened: Awaking singleton {0} in the GameObject {1}",
+            this.GetType(), this.gameObject.name));
     }
 
     /// <summary>
