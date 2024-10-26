@@ -10,16 +10,7 @@ public class ScrollingObject : MonoBehaviour
     [SerializeField]
     private float scrollSpeed = -5.0f;
 
-    private GameManager _gameManager;
     private const float LeftBound = -12.5f;
-
-    /// <summary>
-    /// Initializes the ScrollingObject by finding the GameManager and setting the initial scroll speed.
-    /// </summary>
-    private void Start()
-    {
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
 
     /// <summary>
     /// Updates the position of the ScrollingObject based on the game's state and scroll speed.
@@ -27,7 +18,7 @@ public class ScrollingObject : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (_gameManager.IsGameActive())
+        if (GameManager.Instance.IsGameActive())
         {
             transform.position += new Vector3(scrollSpeed, 0, 0) * Time.deltaTime;
         }
@@ -35,7 +26,7 @@ public class ScrollingObject : MonoBehaviour
         if (transform.position.x < LeftBound && gameObject.CompareTag("Obstacle"))
         {
             Destroy(gameObject);
-            _gameManager.UpdateScore(1);
+            GameManager.Instance.UpdateScore(1);
         }
     }
 

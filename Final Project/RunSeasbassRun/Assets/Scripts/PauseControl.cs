@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Utilities;
 
 /// <summary>
 /// This class handles pausing and unpausing the game.
@@ -10,40 +11,40 @@ using UnityEngine;
 public class PauseControl : MonoBehaviour
 {
     /// <summary>
-    /// A static boolean indicating whether the game is currently paused.
+    /// A boolean indicating whether the game is currently paused.
     /// </summary>
-    public static bool GameIsPaused;
-
-    private GameManager _gameManagerScript;
+    private bool _gameIsPaused;
 
     [Header("UI Settings")]
     [Tooltip("Game Paused Text object")]
     [SerializeField]
     private TextMeshProUGUI pauseText;
 
-    /// <summary>
-    /// Initializes the PauseControl component.
-    /// </summary>
-    private void Start()
-    {
-        // Finds the "GameManager" game object and retrieves its GameManager component.
-        // This allows the PauseControl script to interact with the GameManager script.
-        _gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
 
     /// <summary>
-    /// This function is responsible for checking if the escape key is pressed and if the game is active.
-    /// If both conditions are met, it toggles the game pause state.
+    /// This function is responsible for updating the game state based on the pause control.
+    /// It calls the HandlePause function every frame.
     /// </summary>
     private void Update()
     {
+        HandlePause();
+    }
+
+    /// <summary>
+    /// This function handles the pausing and unpausing of the game based on the escape key press and game activity.
+    /// </summary>
+    private void HandlePause()
+    {
         // If the escape key is pressed and the game is active, toggle the game pause state
-        if (!Input.GetKeyDown(KeyCode.Escape) || !_gameManagerScript.IsGameActive())
+        if (!Input.GetKeyDown(KeyCode.Escape) || !GameManager.Instance.IsGameActive())
         {
             return;
         }
 
-        GameIsPaused = !GameIsPaused;
+        // Toggle the game pause state
+        _gameIsPaused = !_gameIsPaused;
+
+        // Call the PauseGame function to pause or unpause the game
         PauseGame();
     }
 
@@ -52,7 +53,7 @@ public class PauseControl : MonoBehaviour
     /// </summary>
     private void PauseGame()
     {
-        if (GameIsPaused)
+        if (_gameIsPaused)
         {
             // Pause the game by setting the timescale to 0
             Time.timeScale = 0f;

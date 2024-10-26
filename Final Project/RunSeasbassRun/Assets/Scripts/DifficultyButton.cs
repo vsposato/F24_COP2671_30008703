@@ -12,9 +12,6 @@ public class DifficultyButton : MonoBehaviour
     [Tooltip("The value to be used for this button")]
     private int difficulty;
 
-    private GameManager _gameManager;
-
-
     /// <summary>
     /// This function initializes the DifficultyButton component.
     /// It finds the GameManager object, retrieves its GameManager component,
@@ -22,9 +19,6 @@ public class DifficultyButton : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // Find the GameManager object in the scene
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
         // Retrieve the Button component attached to this GameObject
         var button = GetComponent<Button>();
 
@@ -38,6 +32,6 @@ public class DifficultyButton : MonoBehaviour
     private void SetDifficulty()
     {
         // Calls the StartGame method of the GameManager component with the difficulty value set in the Inspector.
-        _gameManager.StartGame(difficulty);
+        GameManager.Instance.StartGame(difficulty);
     }
 }

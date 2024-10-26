@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utilities;
 
 /// <summary>
 /// The main game manager script that handles game logic, UI updates, and game flow.
 /// </summary>
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     [Header("UI Settings")]
     [Tooltip("Score Text object")]
@@ -42,28 +44,24 @@ public class GameManager : MonoBehaviour
     private bool _gameOver = true;
     private int _score;
     private int _timer;
-    private SpawnManager _spawnManager;
     private AudioSource _mainCameraAudioSource;
     private Animator _playerAnim;
     private float _obstacleSpawnRate = 3.0f;
     private float _coinSpawnRate = 3.0f;
 
-    private readonly Dictionary<float, DifficultyLevelInfo> _difficultyLevels =
-        new Dictionary<float, DifficultyLevelInfo>()
+    private readonly Dictionary<int, DifficultyLevelInfo> _difficultyLevels =
+        new()
         {
             { 1, new DifficultyLevelInfo(4.0f, 2.0f, 60) },
-            { 2, new DifficultyLevelInfo(3.0f, 1.5f, 45) },
-            { 3, new DifficultyLevelInfo(2.0f, 1.0f, 30) },
+            { 2, new DifficultyLevelInfo(3.0f, 2.5f, 45) },
+            { 3, new DifficultyLevelInfo(2.0f, 3.0f, 30) },
         };
 
     /// <summary>
     /// Initializes the game components and sets up the initial game state.
     /// </summary>
-    private void Start()
+    protected override void InitializeAfterAwake()
     {
-        // Find and retrieve the SpawnManager component from the "SpawnManager" GameObject
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-
         // Retrieve the AudioSource component from the mainCamera GameObject
         _mainCameraAudioSource = mainCamera.GetComponent<AudioSource>();
 
@@ -87,7 +85,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(_obstacleSpawnRate);
 
             // Call the SpawnObstacle method on the SpawnManager to create a new obstacle
-            _spawnManager.SpawnObstacle();
+            SpawnManager.Instance.SpawnObstacle();
         }
     }
 
@@ -104,7 +102,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(_coinSpawnRate);
 
             // Call the SpawnCoin method on the SpawnManager to create a new coin
-            _spawnManager.SpawnCoin();
+            SpawnManager.Instance.SpawnCoin();
         }
     }
 
@@ -153,31 +151,6 @@ public class GameManager : MonoBehaviour
     {
         // Decrement the timer by one & update the timer text UI with the current timer value
         timerText.text = $"Time: {--_timer}";
-    }
-
-    /// <summary>
-    /// Handles the game over sequence by activating the game over text, restart button, stopping the main camera audio,
-    /// disabling the player's animator, and setting the game over status.
-    /// </summary>
-    public void GameOver(bool isPlayerDead = false)
-    {
-        // Set the game over status to true
-        SetGameOver(true);
-
-        // Activate the game over text
-        gameOverText.gameObject.SetActive(true);
-
-        // Activate the restart button
-        restartButton.gameObject.SetActive(true);
-
-        // Stop the main camera audio
-        _mainCameraAudioSource.Stop();
-
-        if (!isPlayerDead)
-        {
-            // Disable the player's Animator component
-            _playerAnim.enabled = false;
-        }
     }
 
     /// <summary>
@@ -230,6 +203,37 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(false);
         _mainCameraAudioSource.Play();
         _playerAnim.enabled = true;
+        PlayerController.Instance.ToggleDirtParticle(true);
+    }
+
+    /// <summary>
+    /// Handles the game over sequence by activating the game over text, restart button, stopping the main camera audio,
+    /// disabling the player's animator, and setting the game over status.
+    /// </summary>
+    public void GameOver(bool isPlayerDead = false)
+    {
+        // Set the game over status to true
+        SetGameOver(true);
+
+        if (!isPlayerDead)
+        {
+            // Disable the player's Animator component
+            _playerAnim.enabled = false;
+        }
+
+
+        // Set & Activate the game over text
+        gameOverText.text = isPlayerDead ? "Game Over!" : "You Won!";
+        gameOverText.color = isPlayerDead ? Color.red : Color.green;
+        gameOverText.gameObject.SetActive(true);
+
+        // Activate the restart button
+        restartButton.gameObject.SetActive(true);
+
+        // Stop the main camera audio
+        _mainCameraAudioSource.Stop();
+
+        PlayerController.Instance.ToggleDirtParticle(false);
     }
 
     /// <summary>
