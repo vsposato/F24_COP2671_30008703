@@ -4,11 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utilities;
 
 /// <summary>
 /// The main game manager script that handles game logic, UI updates, and game flow.
 /// </summary>
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourSingleton<GameManager>
 {
     [Header("UI Settings")]
     [Tooltip("Score Text object")]
@@ -42,14 +43,13 @@ public class GameManager : MonoBehaviour
     private bool _gameOver = true;
     private int _score;
     private int _timer;
-    private SpawnManager _spawnManager;
     private AudioSource _mainCameraAudioSource;
     private Animator _playerAnim;
     private float _obstacleSpawnRate = 3.0f;
     private float _coinSpawnRate = 3.0f;
 
-    private readonly Dictionary<float, DifficultyLevelInfo> _difficultyLevels =
-        new Dictionary<float, DifficultyLevelInfo>()
+    private readonly Dictionary<int, DifficultyLevelInfo> _difficultyLevels =
+        new()
         {
             { 1, new DifficultyLevelInfo(4.0f, 2.0f, 60) },
             { 2, new DifficultyLevelInfo(3.0f, 1.5f, 45) },
@@ -59,11 +59,8 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Initializes the game components and sets up the initial game state.
     /// </summary>
-    private void Start()
+    protected override void SingletonStarted()
     {
-        // Find and retrieve the SpawnManager component from the "SpawnManager" GameObject
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-
         // Retrieve the AudioSource component from the mainCamera GameObject
         _mainCameraAudioSource = mainCamera.GetComponent<AudioSource>();
 
@@ -87,7 +84,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(_obstacleSpawnRate);
 
             // Call the SpawnObstacle method on the SpawnManager to create a new obstacle
-            _spawnManager.SpawnObstacle();
+            SpawnManager.Instance.SpawnObstacle();
         }
     }
 
@@ -104,7 +101,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(_coinSpawnRate);
 
             // Call the SpawnCoin method on the SpawnManager to create a new coin
-            _spawnManager.SpawnCoin();
+            SpawnManager.Instance.SpawnCoin();
         }
     }
 

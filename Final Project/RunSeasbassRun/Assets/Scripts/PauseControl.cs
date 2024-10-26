@@ -14,22 +14,10 @@ public class PauseControl : MonoBehaviour
     /// </summary>
     public static bool GameIsPaused;
 
-    private GameManager _gameManagerScript;
-
     [Header("UI Settings")]
     [Tooltip("Game Paused Text object")]
     [SerializeField]
     private TextMeshProUGUI pauseText;
-
-    /// <summary>
-    /// Initializes the PauseControl component.
-    /// </summary>
-    private void Start()
-    {
-        // Finds the "GameManager" game object and retrieves its GameManager component.
-        // This allows the PauseControl script to interact with the GameManager script.
-        _gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
 
     /// <summary>
     /// This function is responsible for checking if the escape key is pressed and if the game is active.
@@ -38,7 +26,7 @@ public class PauseControl : MonoBehaviour
     private void Update()
     {
         // If the escape key is pressed and the game is active, toggle the game pause state
-        if (!Input.GetKeyDown(KeyCode.Escape) || !_gameManagerScript.IsGameActive())
+        if (!Input.GetKeyDown(KeyCode.Escape) || !GameManager.Instance.IsGameActive())
         {
             return;
         }

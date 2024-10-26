@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _playerRb;
     private Animator _playerAnim;
     private AudioSource _playerAudio;
-    private GameManager _gameManagerScript;
 
     [Header("Movement Settings")]
     [SerializeField]
@@ -76,9 +75,6 @@ public class PlayerController : MonoBehaviour
 
         // Get the AudioSource component attached to the player game object
         _playerAudio = GetComponent<AudioSource>();
-
-        // Find the "GameManager" game object and get its GameManager component
-        _gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void Update()
@@ -92,7 +88,7 @@ public class PlayerController : MonoBehaviour
     private void HandleJump()
     {
         // Check if the player presses the space key, is on the ground, and the game is active
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && _gameManagerScript.IsGameActive())
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && GameManager.Instance.IsGameActive())
         {
             // Set the player to not be on the ground
             isOnGround = false;
@@ -148,7 +144,7 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Play();
         }
         // Check if the collision object has the "Obstacle" tag and the game is active
-        else if (collision.gameObject.CompareTag("Obstacle") && _gameManagerScript.IsGameActive())
+        else if (collision.gameObject.CompareTag("Obstacle") && GameManager.Instance.IsGameActive())
         {
             // Set the player's death animation parameters
             _playerAnim.SetBool(DeathB, true);
@@ -162,7 +158,7 @@ public class PlayerController : MonoBehaviour
             explosionParticle.Play();
 
             // End the game with player death
-            _gameManagerScript.GameOver(true);
+            GameManager.Instance.GameOver(true);
         }
     }
 
@@ -179,7 +175,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Update the game score by 1
-        _gameManagerScript.UpdateScore(1);
+        GameManager.Instance.UpdateScore(1);
 
         // Play the coin pickup sound
         _playerAudio.PlayOneShot(pickupSound, 1.0f);

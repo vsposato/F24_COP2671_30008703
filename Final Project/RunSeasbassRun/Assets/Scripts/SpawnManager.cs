@@ -1,9 +1,10 @@
 using UnityEngine;
+using Utilities;
 
 /// <summary>
 /// This class handles spawning of obstacles and coins.
 /// </summary>
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : MonoBehaviourSingleton<SpawnManager>
 {
     [Tooltip("Obstacles to be spawned during the game")]
     [SerializeField]
