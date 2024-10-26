@@ -20,7 +20,7 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
 
     private const float MinScrollSpeed = -7.0f;
     private const float MaxScrollSpeed = -8.0f;
-    private const float MinCoinSpawnY = 3.5f;
+    private const float MinCoinSpawnY = 3.75f;
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
 

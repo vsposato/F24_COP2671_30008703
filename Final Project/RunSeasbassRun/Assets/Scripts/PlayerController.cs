@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
+using Utilities;
 
 /// <summary>
 /// This class represents the controller for the player to handle jumping & collisions.
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : SingletonMonoBehaviour<PlayerController>
 {
     private static readonly int DeathB = Animator.StringToHash("Death_b");
     private static readonly int JumpTrig = Animator.StringToHash("Jump_trig");
@@ -61,7 +63,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip runSound;
 
-
     /// <summary>
     /// Initializes the necessary components and game objects for the player's functionality.
     /// </summary>
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
         // Get the AudioSource component attached to the player game object
         _playerAudio = GetComponent<AudioSource>();
+
     }
 
     private void Update()
@@ -103,7 +105,7 @@ public class PlayerController : MonoBehaviour
             _playerAudio.PlayOneShot(jumpStartSound, 2.0f);
 
             // Stop the dirt particles on player
-            dirtParticle.Stop();
+            ToggleDirtParticle(false);
         }
 
         // Check the player's vertical velocity
@@ -141,7 +143,7 @@ public class PlayerController : MonoBehaviour
             _playerAudio.PlayOneShot(jumpEndSound, 2.0f);
 
             // Start the dirt particles on player
-            dirtParticle.Play();
+            ToggleDirtParticle(true);
         }
         // Check if the collision object has the "Obstacle" tag and the game is active
         else if (collision.gameObject.CompareTag("Obstacle") && GameManager.Instance.IsGameActive())
@@ -154,7 +156,7 @@ public class PlayerController : MonoBehaviour
             _playerAudio.PlayOneShot(crashSound, 1.0f);
 
             // Stop the dirt particles on player and play the explosion particles
-            dirtParticle.Stop();
+            ToggleDirtParticle(false);
             explosionParticle.Play();
 
             // End the game with player death
@@ -182,5 +184,17 @@ public class PlayerController : MonoBehaviour
 
         // Destroy the coin game object
         Destroy(collision.gameObject);
+    }
+
+    public void ToggleDirtParticle(bool particleOn)
+    {
+        if (particleOn)
+        {
+            dirtParticle.Play();
+        }
+        else
+        {
+            dirtParticle.Stop();
+        }
     }
 }

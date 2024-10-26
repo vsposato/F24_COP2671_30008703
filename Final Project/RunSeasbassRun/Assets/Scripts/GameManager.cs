@@ -53,8 +53,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         new()
         {
             { 1, new DifficultyLevelInfo(4.0f, 2.0f, 60) },
-            { 2, new DifficultyLevelInfo(3.0f, 1.5f, 45) },
-            { 3, new DifficultyLevelInfo(2.0f, 1.0f, 30) },
+            { 2, new DifficultyLevelInfo(3.0f, 2.5f, 45) },
+            { 3, new DifficultyLevelInfo(2.0f, 3.0f, 30) },
         };
 
     /// <summary>
@@ -70,9 +70,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
         // Disable the player's Animator component
         _playerAnim.enabled = false;
-        Debug.Log(string.Format(
-            "SingletonAwakened: Awaking singleton {0} in the GameObject {1}",
-            this.GetType(), this.gameObject.name));
     }
 
     /// <summary>
@@ -157,31 +154,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
     /// <summary>
-    /// Handles the game over sequence by activating the game over text, restart button, stopping the main camera audio,
-    /// disabling the player's animator, and setting the game over status.
-    /// </summary>
-    public void GameOver(bool isPlayerDead = false)
-    {
-        // Set the game over status to true
-        SetGameOver(true);
-
-        // Activate the game over text
-        gameOverText.gameObject.SetActive(true);
-
-        // Activate the restart button
-        restartButton.gameObject.SetActive(true);
-
-        // Stop the main camera audio
-        _mainCameraAudioSource.Stop();
-
-        if (!isPlayerDead)
-        {
-            // Disable the player's Animator component
-            _playerAnim.enabled = false;
-        }
-    }
-
-    /// <summary>
     /// Restarts the current game scene by loading it again.
     /// </summary>
     /// <remarks>
@@ -231,6 +203,37 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         titleScreen.gameObject.SetActive(false);
         _mainCameraAudioSource.Play();
         _playerAnim.enabled = true;
+        PlayerController.Instance.ToggleDirtParticle(true);
+    }
+
+    /// <summary>
+    /// Handles the game over sequence by activating the game over text, restart button, stopping the main camera audio,
+    /// disabling the player's animator, and setting the game over status.
+    /// </summary>
+    public void GameOver(bool isPlayerDead = false)
+    {
+        // Set the game over status to true
+        SetGameOver(true);
+
+        if (!isPlayerDead)
+        {
+            // Disable the player's Animator component
+            _playerAnim.enabled = false;
+        }
+
+
+        // Set & Activate the game over text
+        gameOverText.text = isPlayerDead ? "Game Over!" : "You Won!";
+        gameOverText.color = isPlayerDead ? Color.red : Color.green;
+        gameOverText.gameObject.SetActive(true);
+
+        // Activate the restart button
+        restartButton.gameObject.SetActive(true);
+
+        // Stop the main camera audio
+        _mainCameraAudioSource.Stop();
+
+        PlayerController.Instance.ToggleDirtParticle(false);
     }
 
     /// <summary>
