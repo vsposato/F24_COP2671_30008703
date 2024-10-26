@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Utilities;
 
 /// <summary>
 /// This class handles pausing and unpausing the game.
@@ -10,9 +11,9 @@ using UnityEngine;
 public class PauseControl : MonoBehaviour
 {
     /// <summary>
-    /// A static boolean indicating whether the game is currently paused.
+    /// A boolean indicating whether the game is currently paused.
     /// </summary>
-    public static bool GameIsPaused;
+    private bool _gameIsPaused;
 
     [Header("UI Settings")]
     [Tooltip("Game Paused Text object")]
@@ -25,13 +26,24 @@ public class PauseControl : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        HandlePause();
+    }
+
+    /// <summary>
+    /// This function handles the pausing and unpausing of the game based on the escape key press and game activity.
+    /// </summary>
+    private void HandlePause()
+    {
         // If the escape key is pressed and the game is active, toggle the game pause state
         if (!Input.GetKeyDown(KeyCode.Escape) || !GameManager.Instance.IsGameActive())
         {
             return;
         }
 
-        GameIsPaused = !GameIsPaused;
+        // Toggle the game pause state
+        _gameIsPaused = !_gameIsPaused;
+
+        // Call the PauseGame function to pause or unpause the game
         PauseGame();
     }
 
@@ -40,7 +52,7 @@ public class PauseControl : MonoBehaviour
     /// </summary>
     private void PauseGame()
     {
-        if (GameIsPaused)
+        if (_gameIsPaused)
         {
             // Pause the game by setting the timescale to 0
             Time.timeScale = 0f;
