@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Menus;
 using Models;
 using TMPro;
 using UnityEngine;
@@ -48,6 +49,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private Animator _playerAnim;
     private float _obstacleSpawnRate = 3.0f;
     private float _coinSpawnRate = 3.0f;
+    private int _difficultyLevel;
 
     private readonly Dictionary<int, DifficultyLevelInfo> _difficultyLevels =
         new()
@@ -70,6 +72,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
         // Disable the player's Animator component
         _playerAnim.enabled = false;
+
+        // Retrieve the difficulty level
+        GetDifficultyLevel();
+
+        // Start the game
+        StartGame();
     }
 
     /// <summary>
@@ -176,12 +184,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// Once the game starts, it spawns obstacles and coins at regular intervals, updates the score and timer UI,
     /// plays the main camera audio, and enables the player's animator.
     /// </remarks>
-    public void StartGame(int difficulty)
+    public void StartGame()
     {
         // Set GameOver status to false
         SetGameOver(false);
         // Get the difficult level definition for the selected difficulty
-        var difficultyLevelInfo = _difficultyLevels[difficulty];
+        var difficultyLevelInfo = _difficultyLevels[_difficultyLevel];
         // Divide the obstacle spawn rate by the difficulty to speed up the obstacles
         _obstacleSpawnRate = difficultyLevelInfo.ObstacleSpawnRate;
         // Multiply the coin spawn rate by the difficulty to slow down the coins
@@ -263,5 +271,26 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private void SetGameOver(bool currentStatus)
     {
         _gameOver = currentStatus;
+    }
+
+    /// <summary>
+    /// Retrieves the difficulty level from PlayerPrefs and sets it to the _difficultyLevel variable.
+    /// If the difficulty level is not found in PlayerPrefs, it sets the default difficulty level to 1 and saves it.
+    /// </summary>
+    private void GetDifficultyLevel()
+    {
+        // Check if the difficulty level key exists in PlayerPrefs
+        if (PlayerPrefs.HasKey(OptionsMenu.DifficultyLevelKey))
+        {
+            // If the key exists, retrieve the difficulty level from PlayerPrefs and assign it to _difficultyLevel
+            _difficultyLevel = PlayerPrefs.GetInt(OptionsMenu.DifficultyLevelKey);
+        }
+        else
+        {
+            // If the key does not exist, set the default difficulty level to 1
+            _difficultyLevel = 1;
+            // Save the default difficulty level to PlayerPrefs
+            PlayerPrefs.SetInt(OptionsMenu.DifficultyLevelKey, _difficultyLevel);
+        }
     }
 }

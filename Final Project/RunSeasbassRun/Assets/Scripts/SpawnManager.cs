@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utilities;
 
 /// <summary>
@@ -23,6 +22,8 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
     private const float MinCoinSpawnY = 3.75f;
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
+    private const int MinCoinSpawnCount = 1;
+    private const int MaxCoinSpawnCount = 4;
 
     public bool spawnInProgress = false;
 
@@ -60,7 +61,7 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
         Debug.Log("Spawning Coin");
         spawnInProgress = true;
         var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
-        var spawnCoins = Random.Range(1, 4);
+        var spawnCoins = Random.Range(MinCoinSpawnCount, MaxCoinSpawnCount);
         coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);
 
         var coinSpawnPos =
