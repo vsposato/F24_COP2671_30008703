@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 namespace Menus
 {
     /// <summary>
-    /// This class handles pausing and unpausing the game.
+    /// This class handles pause menu for the game.
     /// </summary>
     public class PauseMenu : MonoBehaviour
     {
