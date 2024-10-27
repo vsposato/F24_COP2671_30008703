@@ -30,9 +30,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField]
     private Button restartButton;
 
-    [Tooltip("Title Screen object")]
+    [Tooltip("Quit to Main Button object")]
     [SerializeField]
-    private GameObject titleScreen;
+    private Button quitButton;
 
     [Tooltip("Main Camera object")]
     [SerializeField]
@@ -177,7 +177,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// <summary>
     /// Starts the game by initializing game state, spawning obstacles and coins, updating UI, and playing audio.
     /// </summary>
-    /// <param name="difficulty">The difficulty level of the game. Higher values increase the spawn rate of obstacles and coins.</param>
     /// <remarks>
     /// This function adjusts the spawn rates of obstacles and coins based on the difficulty level.
     /// It also resets the game state, score, timer, and other game elements to their initial values.
@@ -208,7 +207,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
         // Deactivate the game over text, restart button, and title screen
         UpdateScore(0);
-        titleScreen.gameObject.SetActive(false);
         _mainCameraAudioSource.Play();
         _playerAnim.enabled = true;
         PlayerController.Instance.ToggleDirtParticle(true);
@@ -235,8 +233,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         gameOverText.color = isPlayerDead ? Color.red : Color.green;
         gameOverText.gameObject.SetActive(true);
 
-        // Activate the restart button
+        // Activate the restart and quit buttons
         restartButton.gameObject.SetActive(true);
+        quitButton.gameObject.SetActive(true);
 
         // Stop the main camera audio
         _mainCameraAudioSource.Stop();
