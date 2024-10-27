@@ -100,7 +100,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
             _playerAnim.SetTrigger(JumpTrig);
 
             // Play the jump start sound
-            _playerAudio.PlayOneShot(jumpStartSound, 2.0f);
+            _playerAudio.PlayOneShot(jumpStartSound, 1.0f);
 
             // Stop the dirt particles on player
             ToggleDirtParticle(false);
@@ -138,7 +138,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
             isOnGround = true;
 
             // Play the jump end sound
-            _playerAudio.PlayOneShot(jumpEndSound, 2.0f);
+            _playerAudio.PlayOneShot(jumpEndSound, 1.0f);
 
             // Start the dirt particles on player
             ToggleDirtParticle(true);

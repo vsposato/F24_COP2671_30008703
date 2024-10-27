@@ -23,7 +23,7 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
     private const int MinCoinSpawnCount = 1;
-    private const int MaxCoinSpawnCount = 4;
+    private const int MaxCoinSpawnCount = 6;
 
     public bool spawnInProgress = false;
 
