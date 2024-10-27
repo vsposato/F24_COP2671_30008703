@@ -32,6 +32,6 @@ public class DifficultyButton : MonoBehaviour
     private void SetDifficulty()
     {
         // Calls the StartGame method of the GameManager component with the difficulty value set in the Inspector.
-        GameManager.Instance.StartGame(difficulty);
+        GameManager.Instance.StartGame();
     }
 }
