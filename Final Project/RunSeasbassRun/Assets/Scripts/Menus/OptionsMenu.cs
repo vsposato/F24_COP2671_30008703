@@ -84,14 +84,28 @@ namespace Menus
             GetDifficultyLevel();
         }
 
+        /// <summary>
+        /// Sets the audio settings by retrieving and restoring the mixer values for master, music, and SFX.
+        /// It also updates the corresponding volume labels.
+        /// </summary>
         private void SetAudioSettings()
         {
+            // Retrieve and restore the master volume mixer value
             GetAndRestoreMixerValue(MasterMixerValueKey);
+
+            // Retrieve and restore the music volume mixer value
             GetAndRestoreMixerValue(MusicMixerValueKey);
+
+            // Retrieve and restore the SFX volume mixer value
             GetAndRestoreMixerValue(SfxMixerValueKey);
 
+            // Update the master volume label with the current slider value plus 80
             masterVolumeLabel.text = $"{masterVolumeSlider.value + 80}";
+
+            // Update the music volume label with the current slider value plus 80
             musicVolumeLabel.text = $"{musicVolumeSlider.value + 80}";
+
+            // Update the SFX volume label with the current slider value plus 80
             sfxVolumeLabel.text = $"{sfxVolumeSlider.value + 80}";
         }
 
@@ -109,7 +123,8 @@ namespace Menus
             for (var i = 0; i < _resolutions.Length; i++)
             {
                 // Check if the current screen resolution matches the available resolution
-                if (Screen.width != _resolutions[i].Width || Screen.height != _resolutions[i].Height)
+                if (Screen.width != _resolutions[i].Width ||
+                    Screen.height != _resolutions[i].Height)
                 {
                     continue;
                 }
@@ -260,6 +275,17 @@ namespace Menus
             PlayerPrefs.SetFloat(mixerValueName, mixerValue);
         }
 
+        /// <summary>
+        /// Retrieves and restores the specified mixer value from PlayerPrefs.
+        /// If the specified mixer value does not exist in PlayerPrefs, the function returns without any action.
+        /// </summary>
+        /// <param name="mixerValueName">The name of the mixer value to be retrieved and restored.</param>
+        /// <remarks>
+        /// This function is used to retrieve and restore the specified mixer value from PlayerPrefs.
+        /// It checks if the specified mixer value exists in PlayerPrefs using PlayerPrefs.HasKey.
+        /// If the value exists, it retrieves the value using PlayerPrefs.GetFloat and sets it in the AudioMixer using the AudioMixer.SetFloat method.
+        /// It also updates the corresponding slider value in the OptionsMenu based on the retrieved mixer value.
+        /// </remarks>
         private void GetAndRestoreMixerValue(string mixerValueName)
         {
             if (!PlayerPrefs.HasKey(mixerValueName))
@@ -282,12 +308,33 @@ namespace Menus
             }
         }
 
+        /// <summary>
+        /// Sets the difficulty level based on the selected value in the difficulty dropdown.
+        /// </summary>
+        /// <remarks>
+        /// This function retrieves the selected value from the difficulty dropdown, increments it by 1,
+        /// and then saves the difficulty level to PlayerPrefs.
+        /// </remarks>
         public void SetDifficultyLevel()
         {
+            // Retrieve the selected value from the difficulty dropdown and increment it by 1
             var difficultyLevel = difficultyDropdown.value + 1;
+
+            // Save the difficulty level to PlayerPrefs
             PlayerPrefs.SetInt(DifficultyLevelKey, difficultyLevel);
         }
 
+        /// <summary>
+        /// Retrieves the difficulty level from PlayerPrefs and sets the corresponding value in the difficulty dropdown.
+        /// If the difficulty level does not exist in PlayerPrefs, it sets the default difficulty level to 1 and saves it to PlayerPrefs.
+        /// </summary>
+        /// <remarks>
+        /// This function checks if the difficulty level exists in PlayerPrefs using <see cref="PlayerPrefs.HasKey(string)"/>.
+        /// If the difficulty level does not exist, it sets the default difficulty level to 1, updates the difficulty dropdown value to 0,
+        /// and saves the difficulty level to PlayerPrefs using <see cref="PlayerPrefs.SetInt(string, int)"/>.
+        /// If the difficulty level exists, it retrieves the difficulty level using <see cref="PlayerPrefs.GetInt(string)"/>,
+        /// decrements it by 1 (since the dropdown values start from 0), and updates the difficulty dropdown value accordingly.
+        /// </remarks>
         private void GetDifficultyLevel()
         {
             if (!PlayerPrefs.HasKey(DifficultyLevelKey))

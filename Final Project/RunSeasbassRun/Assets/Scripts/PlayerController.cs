@@ -75,7 +75,6 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
 
         // Get the AudioSource component attached to the player game object
         _playerAudio = GetComponent<AudioSource>();
-
     }
 
     private void Update()
@@ -185,6 +184,12 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
         Destroy(collision.gameObject);
     }
 
+    /// <summary>
+    /// Toggles the dirt particle system on or off based on the provided boolean value.
+    /// </summary>
+    /// <param name="particleOn">
+    /// A boolean value indicating whether the dirt particle system should be played (true) or stopped (false).
+    /// </param>
     public void ToggleDirtParticle(bool particleOn)
     {
         if (particleOn)
