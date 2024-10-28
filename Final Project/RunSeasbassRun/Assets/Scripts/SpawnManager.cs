@@ -14,8 +14,8 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
     [SerializeField]
     private GameObject coinPrefab;
 
-    private readonly Vector3 _obstacleSpawnPos = new Vector3(25, 0, -4);
-    private readonly Vector3 _coinSpawnPos = new Vector3(25, 0, -3.25f);
+    private readonly Vector3 _obstacleSpawnPos = new(25, 0, -4);
+    private readonly Vector3 _coinSpawnPos = new(25, 0, -3.25f);
 
     private const float MinScrollSpeed = -7.0f;
     private const float MaxScrollSpeed = -8.0f;
@@ -68,7 +68,7 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
             _coinSpawnPos + new Vector3(0, Random.Range(MinCoinSpawnY, MaxCoinSpawnY), 0);
         for (var i = 0; i < spawnCoins; i++)
         {
-            coinSpawnPos += new Vector3(i * MultipleCoinSpacingX, 0, 0);
+            coinSpawnPos += new Vector3(MultipleCoinSpacingX, 0, 0);
             Instantiate(coinPrefab, coinSpawnPos, coinPrefab.transform.rotation);
         }
         spawnInProgress = false;
