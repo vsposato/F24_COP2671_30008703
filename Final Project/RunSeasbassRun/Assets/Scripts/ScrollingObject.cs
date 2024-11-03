@@ -23,7 +23,7 @@ public class ScrollingObject : MonoBehaviour
             transform.position += new Vector3(scrollSpeed, 0, 0) * Time.deltaTime;
         }
 
-        if (transform.position.x < LeftBound && gameObject.CompareTag("Obstacle"))
+        if (transform.position.x < LeftBound && gameObject.CompareTag(PlayerController.ObstacleTag))
         {
             Destroy(gameObject);
             GameManager.Instance.UpdateScore(1);
@@ -36,6 +36,6 @@ public class ScrollingObject : MonoBehaviour
     /// <param name="newScrollSpeed">The new scroll speed to be applied.</param>
     public void SetScrollSpeed(float newScrollSpeed)
     {
-        this.scrollSpeed = newScrollSpeed;
+        scrollSpeed = newScrollSpeed;
     }
 }

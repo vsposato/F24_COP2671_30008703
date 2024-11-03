@@ -330,8 +330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpVelocity: 10
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
+  fallMultiplier: 3
+  lowJumpMultiplier: 1.5
   explosionParticle: {fileID: 7084695366199990861}
   dirtParticle: {fileID: 4018310374561069036}
   isOnGround: 1

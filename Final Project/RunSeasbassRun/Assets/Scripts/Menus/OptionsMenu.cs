@@ -8,11 +8,6 @@ namespace Menus
 {
     public class OptionsMenu : MonoBehaviour
     {
-        public const string DifficultyLevelKey = "DifficultyLevel";
-        private const string SfxMixerValueKey = "SfxVolume";
-        private const string MusicMixerValueKey = "MusicVolume";
-        private const string MasterMixerValueKey = "MasterVolume";
-
         [Header("Video Option Settings")]
         [Tooltip("Fullscreen Toggle UI Element")]
         [SerializeField]
@@ -60,6 +55,10 @@ namespace Menus
         [SerializeField]
         private TMP_Dropdown difficultyDropdown;
 
+        public const string DifficultyLevelKey = "DifficultyLevel";
+        private const string SfxMixerValueKey = "SfxVolume";
+        private const string MusicMixerValueKey = "MusicVolume";
+        private const string MasterMixerValueKey = "MasterVolume";
         private int _selectedResolution;
 
         private readonly ResolutionItem[] _resolutions =

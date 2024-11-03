@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using Utilities;
 
@@ -6,13 +7,6 @@ using Utilities;
 /// </summary>
 public class PlayerController : SingletonMonoBehaviour<PlayerController>
 {
-    private static readonly int DeathB = Animator.StringToHash("Death_b");
-    private static readonly int JumpTrig = Animator.StringToHash("Jump_trig");
-    private static readonly int DeathTypeINT = Animator.StringToHash("DeathType_int");
-    private Rigidbody _playerRb;
-    private Animator _playerAnim;
-    private AudioSource _playerAudio;
-
     [Header("Movement Settings")]
     [SerializeField]
     [Range(1, 20)]
@@ -21,11 +15,11 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
 
     [Tooltip("Fall Multiplier")]
     [SerializeField]
-    private float fallMultiplier = 2.5f;
+    private float fallMultiplier = 3.0f;
 
     [Tooltip("Low Jump Multiplier")]
     [SerializeField]
-    private float lowJumpMultiplier = 2f;
+    private float lowJumpMultiplier = 1.5f;
 
     [Header("Particle Settings")]
     [SerializeField]
@@ -62,6 +56,23 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
     [SerializeField]
     private AudioClip runSound;
 
+    private static readonly int DeathB = Animator.StringToHash("Death_b");
+    private static readonly int JumpTrig = Animator.StringToHash("Jump_trig");
+    private static readonly int DeathTypeINT = Animator.StringToHash("DeathType_int");
+
+    [DoNotSerialize]
+    public const string ObstacleTag = "Obstacle";
+
+    [DoNotSerialize]
+    public const string CoinTag = "Coin";
+
+    [DoNotSerialize]
+    public const string GroundTag = "Ground";
+
+    private Rigidbody _playerRb;
+    private Animator _playerAnim;
+    private AudioSource _playerAudio;
+
     /// <summary>
     /// Initializes the necessary components and game objects for the player's functionality.
     /// </summary>
@@ -88,7 +99,8 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
     private void HandleJump()
     {
         // Check if the player presses the space key, is on the ground, and the game is active
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && GameManager.Instance.IsGameActive())
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.Space)) && isOnGround &&
+            GameManager.Instance.IsGameActive())
         {
             // Set the player to not be on the ground
             isOnGround = false;
@@ -132,7 +144,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
     private void OnCollisionEnter(Collision collision)
     {
         // Check if the collision object has the "Ground" tag
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag(GroundTag) && !Input.GetKey(KeyCode.Space))
         {
             // Set the player to be on the ground
             isOnGround = true;
@@ -143,8 +155,15 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
             // Start the dirt particles on player
             ToggleDirtParticle(true);
         }
+        else if (collision.gameObject.CompareTag(GroundTag) && Input.GetKey(KeyCode.Space))
+        {
+            // Set the player to be on the ground
+            isOnGround = true;
+            HandleJump();
+        }
         // Check if the collision object has the "Obstacle" tag and the game is active
-        else if (collision.gameObject.CompareTag("Obstacle") && GameManager.Instance.IsGameActive())
+        else if (collision.gameObject.CompareTag(ObstacleTag) &&
+                 GameManager.Instance.IsGameActive())
         {
             // Set the player's death animation parameters
             _playerAnim.SetBool(DeathB, true);
@@ -169,7 +188,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>
     private void OnTriggerEnter(Collider collision)
     {
         // Check if the collision object has the "Coin" tag, and if not return
-        if (!collision.gameObject.CompareTag("Coin"))
+        if (!collision.gameObject.CompareTag(CoinTag))
         {
             return;
         }

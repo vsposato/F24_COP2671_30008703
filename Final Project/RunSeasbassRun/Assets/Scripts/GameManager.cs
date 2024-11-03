@@ -14,6 +14,7 @@ using Utilities;
 /// </summary>
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
+
     [Header("UI Settings")]
     [Tooltip("Score Text object")]
     [SerializeField]
