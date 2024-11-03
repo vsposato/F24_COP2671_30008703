@@ -7,13 +7,14 @@
 * Space bar is used for jump.
   * Hold space bar down to have a prolonged jump
   * Tap space bar for a shorter jump
+  * Player will continuously jump if you land while holding the space bar
 * Escape key is used to pause/unpause game
 
 ## Scoring
 * 1 point for each obstacle that you avoid
-* 1 point for each coin collected (WIP)
+* 1 point for each coin collected
 
-## Timer (WIP)
+## Timer
 * Easy - 60 seconds
 * Medium - 45 seconds
 * Hard - 30 seconds
