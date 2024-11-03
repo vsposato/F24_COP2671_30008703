@@ -17,8 +17,8 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
     private readonly Vector3 _obstacleSpawnPos = new(25, 0, -4);
     private readonly Vector3 _coinSpawnPos = new(25, 0, -3.25f);
 
-    private const float MinScrollSpeed = -7.0f;
-    private const float MaxScrollSpeed = -8.0f;
+    private const float MinScrollSpeed = -10.0f;
+    private const float MaxScrollSpeed = -10.0f;
     private const float MinCoinSpawnY = 3.75f;
     private const float MaxCoinSpawnY = 7.5f;
     private const float MultipleCoinSpacingX = 1.5f;
@@ -34,12 +34,13 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
     {
         if (spawnInProgress)
         {
-            Debug.Log("Skipping Obstacle spawn due to coins being spawned");
+            Logging.PrintWarn("Skipping Obstacle spawn due to coins being spawned");
             return;
         }
-        Debug.Log("Spawning Obstacle");
+        Logging.PrintLog("Spawning Obstacle");
         spawnInProgress = true;
-        var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
+        // var obstacleScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
+        var obstacleScrollSpeed = GameManager.Instance.DifficultyLevelInfo.ScrollRate;
         var obstacleNumber = Random.Range(0, obstaclePrefab.Length);
         var obstacle = obstaclePrefab[obstacleNumber];
         obstacle.GetComponent<ScrollingObject>().SetScrollSpeed(obstacleScrollSpeed);
@@ -48,19 +49,20 @@ public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
     }
 
     /// <summary>
-    /// Spawns a random number of coins (1-3) from the coinPrefab at random Y positions
+    /// Spawns a random number of coins (1-5) from the coinPrefab at random Y positions
     /// around _coinSpawnPos.
     /// </summary>
     public void SpawnCoin()
     {
         if (spawnInProgress)
         {
-            Debug.Log("Skipping Coin spawn due to obstacle being spawned");
+            Logging.PrintWarn("Skipping Coin spawn due to obstacle being spawned");
             return;
         }
-        Debug.Log("Spawning Coin");
+        Logging.PrintLog("Spawning Coin");
         spawnInProgress = true;
-        var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
+        // var coinScrollSpeed = Random.Range(MinScrollSpeed, MaxScrollSpeed);
+        var coinScrollSpeed = GameManager.Instance.DifficultyLevelInfo.ScrollRate;
         var spawnCoins = Random.Range(MinCoinSpawnCount, MaxCoinSpawnCount);
         coinPrefab.GetComponent<ScrollingObject>().SetScrollSpeed(coinScrollSpeed);
 

@@ -49,14 +49,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private Animator _playerAnim;
     private float _obstacleSpawnRate = 3.0f;
     private float _coinSpawnRate = 3.0f;
-    private int _difficultyLevel;
+
+    public DifficultyLevelInfo DifficultyLevelInfo;
 
     private readonly Dictionary<int, DifficultyLevelInfo> _difficultyLevels =
         new()
         {
-            { 1, new DifficultyLevelInfo(4.0f, 2.0f, 60) },
-            { 2, new DifficultyLevelInfo(3.0f, 2.5f, 45) },
-            { 3, new DifficultyLevelInfo(2.0f, 3.0f, 30) },
+            { 1, new DifficultyLevelInfo(4.0f, 2.0f, -10.0f, 60) },
+            { 2, new DifficultyLevelInfo(3.0f, 2.5f, -11.0f, 45) },
+            { 3, new DifficultyLevelInfo(2.0f, 3.0f, -12.0f, 30) },
         };
 
     /// <summary>
@@ -149,6 +150,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         scoreText.text = $"Score: {_score}";
     }
 
+    private void SetScore(int score)
+    {
+        _score = score;
+        UpdateScore(0);
+    }
+
     /// <summary>
     /// Decrements the timer by one and updates the timer text UI.
     /// </summary>
@@ -158,7 +165,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private void DecrementTimer()
     {
         // Decrement the timer by one & update the timer text UI with the current timer value
-        timerText.text = $"Time: {--_timer}";
+        --_timer;
+        UpdateTimer();
+    }
+
+    public void UpdateTimer()
+    {
+        // Update the timer text UI with the current timer value
+        timerText.text = $"Time: {_timer}";
     }
 
     /// <summary>
@@ -185,19 +199,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// </remarks>
     public void StartGame()
     {
-        // Set GameOver status to false
-        SetGameOver(false);
-        // Get the difficult level definition for the selected difficulty
-        var difficultyLevelInfo = _difficultyLevels[_difficultyLevel];
-        // Divide the obstacle spawn rate by the difficulty to speed up the obstacles
-        _obstacleSpawnRate = difficultyLevelInfo.ObstacleSpawnRate;
-        // Multiply the coin spawn rate by the difficulty to slow down the coins
-        _coinSpawnRate = difficultyLevelInfo.CoinSpawnRate;
-        // Multiply the timer base of 30 seconds by 4 - difficulty
-        _timer = difficultyLevelInfo.Timer;
-        timerText.text = $"Time: {_timer}";
-        // Set score to zero
-        _score = 0;
+        // Set base Game Options
+        SetupGameOptions();
 
         // Start the CoRoutines for spawning obstacles and coins, and a coroutine for counting
         // down the timer
@@ -206,10 +209,40 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         StartCoroutine(CountdownTimer());
 
         // Deactivate the game over text, restart button, and title screen
-        UpdateScore(0);
         _mainCameraAudioSource.Play();
         _playerAnim.enabled = true;
         PlayerController.Instance.ToggleDirtParticle(true);
+    }
+
+    /// <summary>
+    /// Sets up the game options based on the selected difficulty level.
+    /// Adjusts the obstacle spawn rate, coin spawn rate, timer, background scroll speed, timer,
+    /// and base score.
+    /// </summary>
+    private void SetupGameOptions()
+    {
+        // Set GameOver status to false
+        SetGameOver(false);
+
+        // Divide the obstacle spawn rate by the difficulty to speed up the obstacles
+        _obstacleSpawnRate = DifficultyLevelInfo.ObstacleSpawnRate;
+
+        // Multiply the coin spawn rate by the difficulty to slow down the coins
+        _coinSpawnRate = DifficultyLevelInfo.CoinSpawnRate;
+
+        // Set the timer from the difficulty level selected
+        _timer = DifficultyLevelInfo.Timer;
+
+        // Get the background and set the scroll speed for the background
+        var background = GameObject.FindGameObjectWithTag("Background")
+            .GetComponent<ScrollingObject>();
+        background.SetScrollSpeed(DifficultyLevelInfo.ScrollRate);
+
+        // Update the timer
+        UpdateTimer();
+
+        // Set score to zero
+        SetScore(0);
     }
 
     /// <summary>
@@ -273,7 +306,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
     /// <summary>
-    /// Retrieves the difficulty level from PlayerPrefs and sets it to the _difficultyLevel variable.
+    /// Retrieves the difficulty level from PlayerPrefs and sets it to the DifficultyLevelInfo variable.
     /// If the difficulty level is not found in PlayerPrefs, it sets the default difficulty level to 1 and saves it.
     /// </summary>
     private void GetDifficultyLevel()
@@ -281,15 +314,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         // Check if the difficulty level key exists in PlayerPrefs
         if (PlayerPrefs.HasKey(OptionsMenu.DifficultyLevelKey))
         {
-            // If the key exists, retrieve the difficulty level from PlayerPrefs and assign it to _difficultyLevel
-            _difficultyLevel = PlayerPrefs.GetInt(OptionsMenu.DifficultyLevelKey);
+            // If the key exists, retrieve the difficulty level from PlayerPrefs
+            DifficultyLevelInfo =
+                _difficultyLevels[PlayerPrefs.GetInt(OptionsMenu.DifficultyLevelKey)];
         }
         else
         {
-            // If the key does not exist, set the default difficulty level to 1
-            _difficultyLevel = 1;
             // Save the default difficulty level to PlayerPrefs
-            PlayerPrefs.SetInt(OptionsMenu.DifficultyLevelKey, _difficultyLevel);
+            PlayerPrefs.SetInt(OptionsMenu.DifficultyLevelKey, 1);
+            DifficultyLevelInfo = _difficultyLevels[1];
         }
     }
 }

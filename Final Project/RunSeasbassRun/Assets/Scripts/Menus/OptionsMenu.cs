@@ -8,7 +8,7 @@ namespace Menus
 {
     public class OptionsMenu : MonoBehaviour
     {
-        public static readonly string DifficultyLevelKey = "DifficultyLevel";
+        public const string DifficultyLevelKey = "DifficultyLevel";
         private const string SfxMixerValueKey = "SfxVolume";
         private const string MusicMixerValueKey = "MusicVolume";
         private const string MasterMixerValueKey = "MasterVolume";
