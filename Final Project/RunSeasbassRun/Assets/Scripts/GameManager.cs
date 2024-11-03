@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Menus;
 using Models;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -50,6 +51,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private float _obstacleSpawnRate = 3.0f;
     private float _coinSpawnRate = 3.0f;
 
+    [DoNotSerialize]
     public DifficultyLevelInfo DifficultyLevelInfo;
 
     private readonly Dictionary<int, DifficultyLevelInfo> _difficultyLevels =
