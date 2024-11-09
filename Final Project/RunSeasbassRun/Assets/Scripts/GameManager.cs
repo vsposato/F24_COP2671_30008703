@@ -49,8 +49,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private int _timer;
     private AudioSource _mainCameraAudioSource;
     private Animator _playerAnim;
-    private float _obstacleSpawnRate = 3.0f;
-    private float _coinSpawnRate = 3.0f;
 
     [DoNotSerialize]
     public DifficultyLevelInfo DifficultyLevelInfo;
@@ -94,7 +92,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         while (IsGameActive())
         {
             // Wait for the specified obstacle spawn rate before spawning the next obstacle
-            yield return new WaitForSeconds(_obstacleSpawnRate);
+            yield return new WaitForSeconds(DifficultyLevelInfo.ObstacleSpawnRate);
 
             // Call the SpawnObstacle method on the SpawnManager to create a new obstacle
             SpawnManager.Instance.SpawnObstacle();
@@ -111,7 +109,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         while (IsGameActive())
         {
             // Wait for the specified coin spawn rate before spawning the next coin
-            yield return new WaitForSeconds(_coinSpawnRate);
+            yield return new WaitForSeconds(DifficultyLevelInfo.CoinSpawnRate);
 
             // Call the SpawnCoin method on the SpawnManager to create a new coin
             SpawnManager.Instance.SpawnCoin();
@@ -226,12 +224,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         // Set GameOver status to false
         SetGameOver(false);
-
-        // Divide the obstacle spawn rate by the difficulty to speed up the obstacles
-        _obstacleSpawnRate = DifficultyLevelInfo.ObstacleSpawnRate;
-
-        // Multiply the coin spawn rate by the difficulty to slow down the coins
-        _coinSpawnRate = DifficultyLevelInfo.CoinSpawnRate;
 
         // Set the timer from the difficulty level selected
         _timer = DifficultyLevelInfo.Timer;

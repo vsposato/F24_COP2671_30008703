@@ -13,7 +13,7 @@ namespace Utilities
             get
             {
                 if (_instance == null)
-                    Debug.LogError($"No instance of {typeof(T)} exists in the scene.");
+                    Logging.PrintError($"No instance of {typeof(T)} exists in the scene.");
 
                 return _instance;
             }
@@ -29,7 +29,7 @@ namespace Utilities
             }
             else
             {
-                Debug.LogWarning($"An instance of {typeof(T)} already exists in the scene. Self-destructing.");
+                Logging.PrintWarn($"An instance of {typeof(T)} already exists in the scene. Self-destructing.");
                 Destroy(gameObject);
             }
         }

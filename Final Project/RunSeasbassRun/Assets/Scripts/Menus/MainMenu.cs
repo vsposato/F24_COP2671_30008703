@@ -22,7 +22,6 @@ namespace Menus
         /// This function is called when the user selects the Start Game menu item.
         /// It uses the SceneManager to load the scene with the build index 1.
         /// </remarks>
-        /// <param name="buildIndex">The build index of the scene to load. In this case, it should be 1.</param>
         public void StartGame()
         {
             SceneManager.LoadScene(1);
