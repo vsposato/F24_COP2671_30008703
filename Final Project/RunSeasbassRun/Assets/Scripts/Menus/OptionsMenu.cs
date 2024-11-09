@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace Menus
 {
+    /// <summary>
+    /// This class handles the Options Menu functionality.
+    /// </summary>
     public class OptionsMenu : MonoBehaviour
     {
         [Header("Video Option Settings")]

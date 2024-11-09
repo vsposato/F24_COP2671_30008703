@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Utilities
 {
+    /// <summary>
+    /// Logging class for handling logging based on whether we are in debug mode.
+    /// </summary>
     public static class Logging
     {
         /// <summary>

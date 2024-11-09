@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 namespace Menus
 {
+    /// <summary>
+    /// This class handles the MainMenu functions.
+    /// </summary>
     public class MainMenu : MonoBehaviour
     {
         [Header("Menu Screens")]
